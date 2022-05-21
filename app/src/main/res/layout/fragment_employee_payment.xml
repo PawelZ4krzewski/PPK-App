@@ -1,14 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.employeePayment.employeePaymentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/empPayTextView"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_employee_payment"
+        app:layout_constraintBottom_toTopOf="@id/empAmountTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="100dp"
+        />
 
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/empAmountTextView"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Employee_payment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/empPayTextView"
+        app:layout_constraintBottom_toTopOf="@+id/employeeAmountTextInputLayout"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/employeeAmountTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/empAmountTextView"
+        app:layout_constraintBottom_toTopOf="@id/companyAmountTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/employeeAmountTextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal"
+            android:hint="@string/amount"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/companyAmountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/Company_payment"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/employeeAmountTextInputLayout"
+        app:layout_constraintBottom_toTopOf="@+id/companyAmountTextInputLayout"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/companyAmountTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/companyAmountTextView"
+        app:layout_constraintBottom_toTopOf="@id/dateTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/companyAmountTextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal"
+            android:hint="@string/amount"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/date"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/companyAmountTextInputLayout"
+        app:layout_constraintBottom_toTopOf="@+id/dateTextInputLayout"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dateTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateTextView"
+        app:layout_constraintBottom_toTopOf="@id/unitValueTextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dateInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:hint="@string/dd_mm_yyyy"
+            android:inputType="date"
+            android:focusable="false"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/unitValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/unit_value"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateTextInputLayout"
+        app:layout_constraintBottom_toTopOf="@+id/unitValueTextInputLayout"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/unitValueTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/unitValueTextView"
+        app:layout_constraintBottom_toTopOf="@+id/addPaymentButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/unitValuetTextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="none"
+            android:focusable="false"
+            android:text="@string/randomValue"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/addPaymentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/Add_payment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/unitValueTextInputLayout"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginBottom="30dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:strokeColor="@color/navy"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

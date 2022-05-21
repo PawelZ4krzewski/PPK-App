@@ -9,4 +9,13 @@
     <string name="register">register</string>
     <string name="login">login</string>
     <string name="repeatPassword">Repeat Password</string>
+    <string name="add_employee_payment">Add employee\'s payment</string>
+    <string name="Employee_payment">Employee ayment</string>
+    <string name="Company_payment">Company payment</string>
+    <string name="date">Date</string>
+    <string name="unit_value">Unit value</string>
+    <string name="randomValue">59,23</string>
+    <string name="Add_payment">Add payment</string>
+    <string name="dd_mm_yyyy">DD/MM/YYYY</string>
+    <string name="amount">Amount</string>
 </resources>
