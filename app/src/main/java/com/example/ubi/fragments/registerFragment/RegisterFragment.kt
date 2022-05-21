@@ -1,4 +1,4 @@
-package com.example.ubi.fragments
+package com.example.ubi.fragments.registerFragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,16 +8,15 @@ import android.view.ViewGroup
 import com.example.ubi.R
 
 
-class LoginFragment : Fragment() {
-
+class RegisterFragment : Fragment() {
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_register, container, false)
     }
+
 
 }

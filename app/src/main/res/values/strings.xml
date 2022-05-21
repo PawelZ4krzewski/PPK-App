@@ -2,4 +2,11 @@
     <string name="app_name">Ubi</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="usernameAndPassword">Login and Password</string>
+    <string name="username">Username</string>
+    <string name="password">password</string>
+    <string name="change_password">change password</string>
+    <string name="register">register</string>
+    <string name="login">login</string>
+    <string name="repeatPassword">Repeat Password</string>
 </resources>
