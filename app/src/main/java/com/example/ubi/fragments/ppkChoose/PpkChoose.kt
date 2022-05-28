@@ -21,6 +21,10 @@ class PpkChoose : Fragment() {
         Ppk("Nazwa 5", 5.54F),
     )
 
+    private val viewModel by lazy{
+        PpkChooseViewModel()
+    }
+
     private val adapter by lazy {
         PpkRvAdapter(ppkList)
     }
