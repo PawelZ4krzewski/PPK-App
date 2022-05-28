@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_nav_graph"
-    app:startDestination="@id/employeePaymentFragment">
+    app:startDestination="@id/ppkChoose">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -18,10 +18,28 @@
         android:id="@+id/registerFragment"
         android:name="com.example.ubi.fragments.registerFragment.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_companyChoose"
+            app:destination="@id/companyChoose" />
+    </fragment>
     <fragment
         android:id="@+id/employeePaymentFragment"
         android:name="com.example.ubi.fragments.employeePayment.employeePaymentFragment"
         android:label="fragment_employee_payment"
         tools:layout="@layout/fragment_employee_payment" />
+    <fragment
+        android:id="@+id/companyChoose"
+        android:name="com.example.ubi.fragments.companyChoose.CompanyChoose"
+        android:label="fragment_company_choose"
+        tools:layout="@layout/fragment_company_choose" >
+        <action
+            android:id="@+id/action_companyChoose_to_ppkChoose"
+            app:destination="@id/ppkChoose" />
+    </fragment>
+    <fragment
+        android:id="@+id/ppkChoose"
+        android:name="com.example.ubi.fragments.ppkChoose.PpkChoose"
+        android:label="fragment_ppk_choose"
+        tools:layout="@layout/fragment_ppk_choose" />
 </navigation>

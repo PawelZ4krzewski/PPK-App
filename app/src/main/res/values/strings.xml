@@ -18,4 +18,13 @@
     <string name="Add_payment">Add payment</string>
     <string name="dd_mm_yyyy">DD/MM/YYYY</string>
     <string name="amount">Amount</string>
+    <string name="ext_inf">Additional Information</string>
+    <string name="ext_emp_per">Additional Employee Percent</string>
+    <string name="decimal">12,34</string>
+    <string name="percentage">Extra in %</string>
+    <string name="company_name">Company Name</string>
+    <string name="ext_comp_per">Additional Company Percentages</string>
+    <string name="next">Next</string>
+    <string name="ppk">PPK</string>
+    <string name="choose">Choose</string>
 </resources>

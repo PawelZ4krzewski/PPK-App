@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.employeePayment.employeePaymentFragment">
+    tools:context=".fragments.companyChoose.CompanyChoose">
 
     <TextView
         android:id="@+id/extInfTextView"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_employee_payment"
+        android:text="@string/ext_inf"
         app:layout_constraintBottom_toTopOf="@id/extEmpPerTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Employee_payment"
+        android:text="@string/ext_emp_per"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/extInfTextView"
         app:layout_constraintBottom_toTopOf="@+id/extEmpPerTextInputLayout"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
-            android:hint="@string/amount"
+            android:hint="@string/percentage"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/Company_payment"
+        android:text="@string/company_name"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/extEmpPerTextInputLayout"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
-            android:hint="@string/amount"
+            android:hint="@string/company_name"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/date"
+        android:text="@string/ext_comp_per"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/companyNameTextInputLayout"
@@ -111,7 +111,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/extCompPerTextView"
-        app:layout_constraintBottom_toTopOf="@id/unitValueTextView"
+        app:layout_constraintBottom_toTopOf="@id/addExtInfoButton"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="25dp"
@@ -119,52 +119,16 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dateInputEditText"
+            android:id="@+id/extCompPerInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:hint="@string/dd_mm_yyyy"
-            android:inputType="date"
-            android:focusable="false"
+            android:inputType="numberDecimal"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/unitValueTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/unit_value"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/extCompPerInputLayout"
-        app:layout_constraintBottom_toTopOf="@+id/unitValueTextInputLayout"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/unitValueTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/unitValueTextView"
-        app:layout_constraintBottom_toTopOf="@+id/addExtInfoButton"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintVertical_chainStyle="packed"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/unitValuetTextInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="none"
-            android:focusable="false"
-            android:text="@string/randomValue"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addExtInfoButton"
@@ -173,14 +137,15 @@
         android:layout_margin="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/Add_payment"
+        android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/unitValueTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/extCompPerInputLayout"
         app:layout_constraintVertical_chainStyle="packed"
         android:layout_marginBottom="30dp"
         app:strokeColor="@color/navy"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
