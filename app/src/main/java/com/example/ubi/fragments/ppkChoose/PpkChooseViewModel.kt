@@ -14,7 +14,21 @@ import java.util.*
 
 class PpkChooseViewModel : ViewModel() {
 
-    private val urlList: List<String> = listOf("https://www.bankier.pl/fundusze/notowania/PZU55")
+    private val urlList: List<List<String>> = listOf(
+        listOf("https://www.bankier.pl/fundusze/notowania/PZU55", "PPK inPZU 2035"),
+        listOf("https://www.bankier.pl/fundusze/notowania/FOR23", "BNP Paribas PPK 2050"),
+        listOf("https://www.bankier.pl/fundusze/notowania/PIO70", "Pekao PPK 2020 Spokojne Jutro"),
+        listOf("https://www.bankier.pl/fundusze/notowania/FOR22", "BNP Paribas PPK 2045"),
+        listOf("https://www.bankier.pl/fundusze/notowania/INV53", "Investor PPK 2060"),
+        listOf("https://www.bankier.pl/fundusze/notowania/BGK22", "Investor PPK 2055"),
+        listOf("https://www.bankier.pl/fundusze/notowania/BGK20", "PFR PPK 2045"),
+        listOf("https://www.bankier.pl/fundusze/notowania/MIL39", "Millennium Emerytura 2025"),
+        listOf("https://www.bankier.pl/fundusze/notowania/ING88", "NN Emerytura 2060"),
+        listOf("https://www.bankier.pl/fundusze/notowania/ARK53", "Santander PPK 2055"),
+        listOf("https://www.bankier.pl/fundusze/notowania/ARK54", "Santander PPK 2060")
+
+
+        )
     val ppkList = MutableStateFlow(listOf<Ppk>())
     val isLoading = MutableStateFlow(false)
 
@@ -50,8 +64,8 @@ class PpkChooseViewModel : ViewModel() {
         val ppks: MutableList<Ppk> = mutableListOf()
 
         urlList.forEach { url ->
-            getInformationAboutPpk(url).apply {
-                ppks.add(Ppk("PZU55", this[1], this[0]))
+            getInformationAboutPpk(url[0]).apply {
+                ppks.add(Ppk(url[1], this[1], this[0]))
             }
         }
 
