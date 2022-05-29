@@ -4,38 +4,59 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ubi.database.Ppk
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PpkChooseViewModel: ViewModel() {
+class PpkChooseViewModel : ViewModel() {
 
     private val urlList: List<String> = listOf("https://www.bankier.pl/fundusze/notowania/PZU55")
-    private val ppkList: MutableList<Ppk> = mutableListOf()
+    val ppkList = MutableStateFlow(listOf<Ppk>())
+    val isLoading = MutableStateFlow(false)
 
     init {
+        getPpk()
+    }
 
+     fun getPpk() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                getInformationAboutPpk(urlList[0]).apply {
-                    ppkList.add(Ppk("PZU55",this[1], this[0]))
-                }
+                isLoading.value = true
+                val response = makePpk()
+                delay(500)
+                ppkList.value = response
+
+                Log.d("PPKVM", ppkList.value.size.toString())
             } catch (e: Exception) {
                 Log.e("JSOUP", e.toString())
+            } finally {
+                isLoading.value = false
             }
-
         }
     }
 
+    fun getPpkList(): List<Ppk> {
+        Log.d("PPKVM", ppkList.value.size.toString())
 
-    val inf = getInformationAboutPpk(urlList[0])
+        return ppkList.value
+    }
 
+    fun makePpk(): List<Ppk> {
 
+        val ppks: MutableList<Ppk> = mutableListOf()
 
+        urlList.forEach { url ->
+            getInformationAboutPpk(url).apply {
+                ppks.add(Ppk("PZU55", this[1], this[0]))
+            }
+        }
+
+        return ppks.toList()
+    }
 
     private fun getInformationAboutPpk(url: String): List<MutableList<String>> {
 
@@ -46,8 +67,6 @@ class PpkChooseViewModel: ViewModel() {
 
             val document = Jsoup.connect(url).get()
             var daneNazwa: String? = null
-
-            Log.d("Document",document.outerHtml())
 
             for (row in document.getElementsByTag("script")) {
                 if ("dane_nazwa = " in row.toString()) {
@@ -69,17 +88,16 @@ class PpkChooseViewModel: ViewModel() {
                     value = obj.substringAfter("\"y\":").substringBefore(",\"turnover\"")
                     x = obj.substringAfter("\"x\":")
                     if (!value.isNullOrBlank() and !x.isNullOrBlank()) {
-                        Log.d("DODAJE", x.toString() +" "+ value.toString())
+//                        Log.d("DODAJE", x.toString() +" "+ value.toString())
                         tmstmp.add(x)
                         values.add(value)
                     }
                 }
             }
-        }
-        catch(e : Exception){
+        } catch (e: Exception) {
             Log.e("JSOUP", e.toString())
         }
-        return listOf<MutableList<String>>(tmstmp,values)
+        return listOf<MutableList<String>>(tmstmp, values)
     }
 
 

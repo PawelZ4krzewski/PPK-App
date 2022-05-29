@@ -1,32 +1,29 @@
 package com.example.ubi.fragments.ppkChoose
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ubi.R
 import com.example.ubi.database.Ppk
 import com.example.ubi.databinding.FragmentPpkChooseBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import com.example.ubi.adapters.PpkRvAdapter as PpkRvAdapter
 
 class PpkChoose : Fragment() {
-
-    private val ppkList: ArrayList<Ppk> = arrayListOf(
-        Ppk("Nazwa 1", 1.54F),
-        Ppk("Nazwa 2", 2.54F),
-        Ppk("Nazwa 3", 3.54F),
-        Ppk("Nazwa 4", 4.54F),
-        Ppk("Nazwa 5", 5.54F),
-    )
 
     private val viewModel by lazy{
         PpkChooseViewModel()
     }
 
     private val adapter by lazy {
-        PpkRvAdapter(ppkList)
+        Log.d("PpkChoose ADAPTER", viewModel.getPpkList().size.toString())
+        PpkRvAdapter(arrayListOf())
     }
 
     private var _binding: FragmentPpkChooseBinding? = null
@@ -45,8 +42,24 @@ class PpkChoose : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        collectFlow()
     }
 
+    private fun collectFlow(){
+        lifecycleScope.launch{
+            viewModel.ppkList.collect {
+                adapter.ppkList.clear()
+                adapter.ppkList.addAll(it)
+                adapter.notifyDataSetChanged()
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.isLoading.collect {
+                binding.swipeRefresh.isRefreshing = it
+            }
+        }
+    }
 
     private fun setupRecyclerView(){
         binding.ppkRecycleView.layoutManager = LinearLayoutManager(requireContext())

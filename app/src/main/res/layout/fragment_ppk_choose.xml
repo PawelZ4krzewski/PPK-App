@@ -6,12 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ppkChoose.PpkChoose">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ppkRecycleView"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/item_ppk"
-            />
+            android:layout_height="match_parent">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ppkRecycleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    tools:listitem="@layout/item_ppk"
+                    />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>

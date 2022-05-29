@@ -10,7 +10,7 @@ import com.example.ubi.R
 import com.example.ubi.database.Ppk
 
 class PpkRvAdapter(
-    private val ppkList: ArrayList<Ppk>
+    val ppkList: ArrayList<Ppk>
 ): RecyclerView.Adapter<PpkRvAdapter.PpkViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PpkViewHolder {
@@ -21,7 +21,7 @@ class PpkRvAdapter(
     override fun onBindViewHolder(holder: PpkRvAdapter.PpkViewHolder, position: Int) {
         val ppk = ppkList[position]
         holder.ppkName.text = ppk.name
-        holder.ppkValue.text = ppk.value.toString()
+        holder.ppkValue.text = ppk.values[ppk.values.size - 1] + " zł"
 
         val isVisibile: Boolean = ppk.visibility
 
