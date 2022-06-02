@@ -20,7 +20,8 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 class PpkRvAdapter(
-    val ppkList: ArrayList<Ppk>
+    val ppkList: ArrayList<Ppk>,
+    val listener: (Ppk) -> Unit
 ): RecyclerView.Adapter<PpkRvAdapter.PpkViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PpkViewHolder {
@@ -45,6 +46,10 @@ class PpkRvAdapter(
         //Chart
         initChart(holder,ppk)
         setDataToLineChart(holder,ppk)
+
+        holder.chooseButton.setOnClickListener{
+            listener.invoke(ppk)
+        }
     }
 
     override fun getItemCount(): Int = ppkList.size

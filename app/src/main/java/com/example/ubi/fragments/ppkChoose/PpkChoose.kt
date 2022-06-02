@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ubi.R
+import com.example.ubi.activities.LoginViewModel
 import com.example.ubi.database.Ppk
 import com.example.ubi.databinding.FragmentPpkChooseBinding
+import com.example.ubi.fragments.registerFragment.RegisterViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.example.ubi.adapters.PpkRvAdapter as PpkRvAdapter
@@ -21,9 +24,20 @@ class PpkChoose : Fragment() {
         PpkChooseViewModel()
     }
 
+    private val loginViewModel: LoginViewModel by activityViewModels()
+
+
+    private val registrationViewModel by lazy{
+        RegisterViewModel()
+    }
+
     private val adapter by lazy {
         Log.d("PpkChoose ADAPTER", viewModel.getPpkList().size.toString())
-        PpkRvAdapter(arrayListOf())
+        PpkRvAdapter(arrayListOf()){ ppk ->
+            loginViewModel.setPpkName(ppk.id)
+            loginViewModel.printRegistrationInfo()
+//            TODO add to database and Navigation
+        }
     }
 
     private var _binding: FragmentPpkChooseBinding? = null
@@ -40,7 +54,6 @@ class PpkChoose : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupRecyclerView()
         collectFlow()
     }

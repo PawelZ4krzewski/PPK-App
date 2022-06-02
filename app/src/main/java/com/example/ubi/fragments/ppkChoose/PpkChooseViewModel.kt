@@ -32,6 +32,7 @@ class PpkChooseViewModel : ViewModel() {
     val ppkList = MutableStateFlow(listOf<Ppk>())
     val isLoading = MutableStateFlow(false)
 
+
     init {
         getPpk()
     }
@@ -65,7 +66,7 @@ class PpkChooseViewModel : ViewModel() {
 
         urlList.forEach { url ->
             getInformationAboutPpk(url[0]).apply {
-                ppks.add(Ppk(url[1], this[1], this[0]))
+                ppks.add(Ppk(url[1].takeLast(5),url[1], this[1], this[0]))
             }
         }
 
