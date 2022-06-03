@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/ppkChoose"
-        android:name="com.example.ubi.fragments.ppkChoose.PpkChoose"
+        android:name="com.example.ubi.fragments.ppkChoose.PpkChooseFragment"
         android:label="fragment_ppk_choose"
         tools:layout="@layout/fragment_ppk_choose" />
 </navigation>

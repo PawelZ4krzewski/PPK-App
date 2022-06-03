@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
 
-    private lateinit var mUserViewModel: UserVIewModel
 
     private val loginViewModel: LoginViewModel by activityViewModels()
 
@@ -35,8 +34,6 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-
-        mUserViewModel = ViewModelProvider(this).get(UserVIewModel::class.java)
 
         return binding.root
     }

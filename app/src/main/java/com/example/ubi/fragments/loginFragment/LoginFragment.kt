@@ -5,13 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.ubi.R
+import com.example.ubi.database.UserVIewModel
 import com.example.ubi.databinding.FragmentLoginBinding
 import java.util.Objects.isNull
 
 
 class LoginFragment : Fragment() {
+
+    private lateinit var mUserViewModel: UserVIewModel
+
 
     private var _binding: FragmentLoginBinding? = null
     private val binding
@@ -22,6 +28,12 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        mUserViewModel = ViewModelProvider(this).get(UserVIewModel::class.java)
+        mUserViewModel.readAllData.observe(this, Observer {
+
+        })
+
         return binding.root
     }
 

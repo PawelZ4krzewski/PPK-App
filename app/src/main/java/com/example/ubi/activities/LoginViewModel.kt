@@ -12,15 +12,17 @@ class LoginViewModel: ViewModel() {
     private var _additionalPercentage: String? = null
     private var _companyName: String? = null
     private var _additionalCompanyPercentage: String? = null
+    private var _ppkId: String? = null
     private var _ppkName: String? = null
 
-    private val username get() = _username
-    private val password get() = _password
-    private val repeatPassword get() = _repeatPassword
-    private val additionalPercentage get() = _additionalPercentage
-    private val companyName get() = _companyName
-    private val additionalCompanyPercentage get()  = _additionalCompanyPercentage
-    private val ppkName get() = _ppkName
+    val username get() = _username
+    val password get() = _password
+    val repeatPassword get() = _repeatPassword
+    val additionalPercentage get() = _additionalPercentage
+    val companyName get() = _companyName
+    val additionalCompanyPercentage get()  = _additionalCompanyPercentage
+    val ppkId get() = _ppkId
+    val ppkName get() = _ppkName
 
     fun setUsername(username: String) {
         _username = username
@@ -46,17 +48,26 @@ class LoginViewModel: ViewModel() {
         _additionalCompanyPercentage = value
     }
 
+    fun setPpkId(ppk: String) {
+        _ppkId = ppk
+    }
+
     fun setPpkName(ppk: String) {
         _ppkName = ppk
     }
 
+
+
+
+
     fun printRegistrationInfo(){
-        Log.d("REGISTRATION","Username" + username)
-        Log.d("REGISTRATION","Password" + password)
-        Log.d("REGISTRATION","Repeat Password" + repeatPassword)
-        Log.d("REGISTRATION","Add Per" + additionalPercentage)
-        Log.d("REGISTRATION","Company Name" + companyName)
-        Log.d("REGISTRATION","Add Comp Per" + additionalCompanyPercentage)
-        Log.d("REGISTRATION","PPK Name" + ppkName)
+        Log.d("REGISTRATION","Username: " + username)
+        Log.d("REGISTRATION","Password: " + password)
+        Log.d("REGISTRATION","Repeat Password: " + repeatPassword)
+        Log.d("REGISTRATION","Add Per: " + additionalPercentage)
+        Log.d("REGISTRATION","Company Name: " + companyName)
+        Log.d("REGISTRATION","Add Comp Per: " + additionalCompanyPercentage)
+        Log.d("REGISTRATION","PPK id: " + ppkId)
+        Log.d("REGISTRATION","PPK Name: " + ppkName)
     }
 }

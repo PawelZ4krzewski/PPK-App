@@ -66,7 +66,7 @@ class PpkChooseViewModel : ViewModel() {
 
         urlList.forEach { url ->
             getInformationAboutPpk(url[0]).apply {
-                ppks.add(Ppk(url[1].takeLast(5),url[1], this[1], this[0]))
+                ppks.add(Ppk(url[0].takeLast(5),url[1], this[1], this[0]))
             }
         }
 
@@ -125,4 +125,5 @@ class PpkChooseViewModel : ViewModel() {
             return e.toString()
         }
     }
+
 }
