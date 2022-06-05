@@ -36,7 +36,6 @@ class LoginFragment : Fragment() {
 
         val repository = UserRepository(dao)
 
-        val factory = LoginUserViewModelFactory(repository, application)
         LoginUserViewModel(repository,application)
     }
 

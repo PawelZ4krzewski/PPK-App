@@ -1,20 +1,33 @@
 package com.example.ubi.fragments.registerFragment
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ubi.database.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
-class RegisterViewModel: ViewModel() {
+class RegisterViewModel(private val repository: UserRepository, application: Application) :
+    AndroidViewModel(application) {
     private val _username = MutableStateFlow("")
     private val _password = MutableStateFlow("")
     private val _repeatPassword = MutableStateFlow("")
 
+    val isFreeUsername = MutableStateFlow(false)
 
-
+    val isPasswordsSame  = combine(_password, _repeatPassword) { password, repeatPassword ->
+        if(repeatPassword.isNotBlank())
+            return@combine password == repeatPassword
+        else
+            return@combine true
+    }
 
     val isRegistrationEnable = combine(_username, _password, _repeatPassword) { username, password, repeatPassword ->
-        return@combine username.isNotBlank() && password.isNotBlank() && repeatPassword.isNotBlank() && (password == repeatPassword)
+        isUsernameFree(username)
+        return@combine  username.isNotBlank() && password.isNotBlank() && repeatPassword.isNotBlank() && (password == repeatPassword)
     }
 
 
@@ -41,7 +54,12 @@ class RegisterViewModel: ViewModel() {
     }
 
 
-
+    fun isUsernameFree(username: String){
+        viewModelScope.launch{
+            val user = repository.getUser(username)
+            isFreeUsername.value = user == null
+        }
+    }
 
 
 }

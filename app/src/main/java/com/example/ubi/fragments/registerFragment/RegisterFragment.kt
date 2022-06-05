@@ -1,5 +1,6 @@
 package com.example.ubi.fragments.registerFragment
 
+import RegisterViewModelFactory
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -13,8 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.ubi.R
 import com.example.ubi.activities.LoginViewModel
+import com.example.ubi.database.PPKDatabase
+import com.example.ubi.database.UserRepository
 import com.example.ubi.database.UserVIewModel
 import com.example.ubi.databinding.FragmentRegisterBinding
+import com.example.ubi.fragments.loginFragment.LoginUserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -24,7 +28,16 @@ class RegisterFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by activityViewModels()
 
-    private val registerViewModel = RegisterViewModel()
+
+    private val registerViewModel by lazy {
+        val application = requireNotNull(this.activity).application
+
+        val dao = PPKDatabase.getDatabase(application).userDao()
+
+        val repository = UserRepository(dao)
+
+        RegisterViewModel(repository,application)
+    }
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
@@ -69,12 +82,26 @@ class RegisterFragment : Fragment() {
                 binding.registrationButton.isEnabled = it
             }
         }
-    }
 
-    private fun insertUserToDatabase() {
-        val username = binding.usernameTextInputEditText.text?.trim().toString()
-        val password = binding.passwordTextInputEditText.text.toString()
-        val repeatPassword = binding.repeatPasswordTextInputEditText.text.toString()
-    }
+        lifecycleScope.launch {
+            registerViewModel.isFreeUsername.collect{
+                if(!it){
+                    binding.usernameTextInputLayout.error = "Username already exists"
+                }
+                else{
+                    binding.usernameTextInputLayout.error = ""
+                }
+            }
+        }
 
+        lifecycleScope.launch {
+            registerViewModel.isPasswordsSame.collect {
+                if (!it) {
+                    binding.repeatPasswordTextInputLayout.error = "Password do not match"
+                } else {
+                    binding.repeatPasswordTextInputLayout.error = ""
+                }
+            }
+        }
+    }
 }
