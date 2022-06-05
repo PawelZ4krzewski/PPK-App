@@ -40,7 +40,7 @@ class PpkChooseFragment : Fragment() {
             loginViewModel.setPpkId(ppk.id)
             loginViewModel.setPpkName(ppk.name)
             loginViewModel.printRegistrationInfo()
-//          TODO add to database and Navigation
+//          TODO and Navigation
             insertDataToDatabase()
         }
     }

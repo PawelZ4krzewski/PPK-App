@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/employeePaymentFragment2">
+
+    <fragment
+        android:id="@+id/employeePaymentFragment2"
+        android:name="com.example.ubi.fragments.employeePayment.employeePaymentFragment"
+        android:label="fragment_employee_payment"
+        tools:layout="@layout/fragment_employee_payment" />
+</navigation>
