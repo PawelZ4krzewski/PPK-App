@@ -7,7 +7,7 @@
     tools:context=".fragments.companyChoose.CompanyChoose">
 
     <TextView
-        android:id="@+id/extInfTextView"
+        android:id="@+id/ppkName"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="@string/ext_emp_per"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/extInfTextView"
+        app:layout_constraintTop_toBottomOf="@id/ppkName"
         app:layout_constraintBottom_toTopOf="@+id/extEmpPerTextInputLayout"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"

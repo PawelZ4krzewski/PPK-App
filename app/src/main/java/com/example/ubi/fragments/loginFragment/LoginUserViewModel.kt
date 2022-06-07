@@ -1,18 +1,11 @@
 package com.example.ubi.fragments.loginFragment
 
 import android.app.Application
-import android.database.Observable
 import android.util.Log
-import androidx.annotation.NonNull
 import androidx.lifecycle.*
 import androidx.navigation.NavDirections
-import androidx.room.ColumnInfo
-import com.example.ubi.database.PPKDatabase
-import com.example.ubi.database.User
-import com.example.ubi.database.UserRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.ubi.database.user.User
+import com.example.ubi.database.user.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigInteger
@@ -26,7 +19,7 @@ AndroidViewModel(application) {
     private val _isLoged = MutableLiveData<Boolean>()
     private val _isFailesLogin = MutableLiveData<Boolean>()
     val directionLiveData = MutableLiveData<NavDirections?>(null)
-
+    var _user: User? = null
 
     fun setUsername(username: String){
         _username.value = username
@@ -46,7 +39,8 @@ AndroidViewModel(application) {
                     Log.d("LOGIN INF", "Wait Logging!")
 
 //                    _isLoged.value = true
-                    directionLiveData.value = LoginFragmentDirections.actionLoginFragmentToMainActivity()
+                    _user = user!!
+                    directionLiveData.value = LoginFragmentDirections.actionLoginFragmentToMainActivity(user)
                 }
                 else{
                     Log.d("LOGIN INF", "Incorrect Password: corect"+ user.userPassword + " your "+ md5(password))

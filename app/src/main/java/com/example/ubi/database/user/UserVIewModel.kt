@@ -1,9 +1,10 @@
-package com.example.ubi.database
+package com.example.ubi.database.user
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.ubi.database.PPKDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

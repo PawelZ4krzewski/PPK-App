@@ -1,4 +1,4 @@
-package com.example.ubi.database
+package com.example.ubi.database.user
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

@@ -27,4 +27,12 @@
     <string name="next">Next</string>
     <string name="ppk">PPK</string>
     <string name="choose">Choose</string>
+    <string name="ppkName">PPK Name</string>
+    <string name="stateOfFunds">STATE OF FUNDS</string>
+    <string name="payment">Payment</string>
+    <string name="ownPayment">Own Payments</string>
+    <string name="empPayment">Employer\'s Payments</string>
+    <string name="countryPayment">State\'s Payments</string>
+    <string name="inflation">With Inflation</string>
+    <string name="totalFundValue">Total FundsValue</string>
 </resources>

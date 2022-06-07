@@ -6,13 +6,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import com.example.ubi.R
+import com.example.ubi.activities.MainViewModel
+import com.example.ubi.database.PPKDatabase
+import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.databinding.FragmentEmployeePaymentBinding
+import com.example.ubi.fragments.homeScreen.HomeScreenViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class employeePaymentFragment : Fragment() {
+
+    private val viewModel by lazy{
+        val application = requireNotNull(this.activity).application
+        val dao = PPKDatabase.getDatabase(application).PaymentDao()
+        val repository = PaymentRepository(dao)
+        employeePaymentViewModel(repository,application)
+    }
+
+    private val mainViewModel: MainViewModel by activityViewModels()
 
 
     private var _binding: FragmentEmployeePaymentBinding? = null
@@ -22,13 +37,27 @@ class employeePaymentFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEmployeePaymentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.extEmpPerTextInputEditText.doOnTextChanged { text, _, _, _ ->
+            viewModel.setOwnPayment(text.toString())
+        }
+
+        binding.companyNameTextInputEditText.doOnTextChanged { text, _, _, _ ->
+            viewModel.setEmpPayment(text.toString())
+        }
+
+        binding.dateInputEditText.doOnTextChanged { text, _, _, _ ->
+            viewModel.setDate(text.toString())
+        }
+
+        binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[mainViewModel.ppk.values.size-1]
 
         setupDatePicker()
 

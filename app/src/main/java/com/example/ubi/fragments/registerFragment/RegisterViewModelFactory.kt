@@ -1,7 +1,7 @@
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.ubi.database.UserRepository
+import com.example.ubi.database.user.UserRepository
 import com.example.ubi.fragments.registerFragment.RegisterViewModel
 
 class RegisterViewModelFactory(

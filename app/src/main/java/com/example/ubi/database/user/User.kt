@@ -1,10 +1,14 @@
-package com.example.ubi.database
+package com.example.ubi.database.user
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.versionedparcelable.VersionedParcelize
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "user_table")
 data class User(
     @PrimaryKey(autoGenerate = true) val userId: Int,
@@ -15,4 +19,4 @@ data class User(
     @NonNull @ColumnInfo(name = "companyPercentage") val companyPercentage: Float,
     @NonNull @ColumnInfo(name = "ppkId") val ppkId: String,
     @NonNull @ColumnInfo(name = "ppkName") val ppkName: String
-)
+): Parcelable

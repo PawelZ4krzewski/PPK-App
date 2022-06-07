@@ -10,16 +10,15 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ubi.R
 import com.example.ubi.activities.LoginViewModel
-import com.example.ubi.database.Ppk
-import com.example.ubi.database.User
-import com.example.ubi.database.UserVIewModel
+import com.example.ubi.database.user.User
+import com.example.ubi.database.user.UserVIewModel
 import com.example.ubi.databinding.FragmentPpkChooseBinding
-import com.example.ubi.fragments.registerFragment.RegisterViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import java.math.BigInteger
 import java.security.MessageDigest
 import com.example.ubi.adapters.PpkRvAdapter as PpkRvAdapter
@@ -40,7 +39,6 @@ class PpkChooseFragment : Fragment() {
             loginViewModel.setPpkId(ppk.id)
             loginViewModel.setPpkName(ppk.name)
             loginViewModel.printRegistrationInfo()
-//          TODO and Navigation
             insertDataToDatabase()
         }
     }
@@ -87,7 +85,7 @@ class PpkChooseFragment : Fragment() {
         binding.ppkRecycleView.adapter = adapter
     }
 
-    fun insertDataToDatabase(){
+    private fun insertDataToDatabase(){
         val userName = loginViewModel.username!!
         val password = loginViewModel.password!!
         val additionalPercentage  = loginViewModel.additionalPercentage!!
@@ -98,8 +96,16 @@ class PpkChooseFragment : Fragment() {
 
         val user = User(0,userName, md5(password), additionalPercentage.toFloat(), companyName, additionalCompanyPercentage.toFloat(), ppkId, ppkName)
         //Add Data to Database
-        mUserViewModel.addUser(user)
-        Toast.makeText(requireContext(),"Successfully added!", Toast.LENGTH_LONG).show()
+
+        try {
+            mUserViewModel.addUser(user)
+            Toast.makeText(requireContext(),"Successfully added!", Toast.LENGTH_LONG).show()
+            val action = PpkChooseFragmentDirections.actionPpkChooseToLoginFragment()
+            Navigation.findNavController(binding.root).navigate(action)
+        }catch (e: Exception){
+            Toast.makeText(requireContext(),"Registration error $e!", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     fun md5(input:String): String {

@@ -3,11 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/employeePaymentFragment2">
+    app:startDestination="@id/homeScreenFragment">
 
     <fragment
         android:id="@+id/employeePaymentFragment2"
         android:name="com.example.ubi.fragments.employeePayment.employeePaymentFragment"
         android:label="fragment_employee_payment"
-        tools:layout="@layout/fragment_employee_payment" />
+        tools:layout="@layout/fragment_employee_payment" >
+        <argument
+            android:name="currenctUser"
+            app:argType="com.example.ubi.database.user.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeScreenFragment"
+        android:name="com.example.ubi.fragments.homeScreen.HomeScreenFragment"
+        android:label="fragment_home_screen"
+        tools:layout="@layout/fragment_home_screen" >
+        <argument
+            android:name="currentUser"
+            app:argType="com.example.ubi.database.user.User" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_employeePaymentFragment2"
+            app:destination="@id/employeePaymentFragment2" />
+    </fragment>
 </navigation>

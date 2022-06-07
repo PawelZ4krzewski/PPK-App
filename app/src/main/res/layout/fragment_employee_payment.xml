@@ -7,7 +7,7 @@
     tools:context=".fragments.employeePayment.employeePaymentFragment">
 
     <TextView
-        android:id="@+id/extInfTextView"
+        android:id="@+id/ppkName"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="@string/Employee_payment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/extInfTextView"
+        app:layout_constraintTop_toBottomOf="@id/ppkName"
         app:layout_constraintBottom_toTopOf="@+id/extEmpPerTextInputLayout"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -154,13 +154,12 @@
         android:layout_marginBottom="25dp"
         app:layout_constraintVertical_chainStyle="packed"
         >
-        <com.google.android.material.textfield.TextInputEditText
+
+        <TextView
             android:id="@+id/unitValuetTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="none"
-            android:focusable="false"
+            android:textSize="30sp"
             android:text="@string/randomValue"
             />
 

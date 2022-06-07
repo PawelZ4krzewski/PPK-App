@@ -1,24 +1,19 @@
 package com.example.ubi.fragments.registerFragment
 
-import RegisterViewModelFactory
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.ubi.R
 import com.example.ubi.activities.LoginViewModel
 import com.example.ubi.database.PPKDatabase
-import com.example.ubi.database.UserRepository
-import com.example.ubi.database.UserVIewModel
+import com.example.ubi.database.user.UserRepository
 import com.example.ubi.databinding.FragmentRegisterBinding
-import com.example.ubi.fragments.loginFragment.LoginUserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -45,7 +40,7 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
         return binding.root

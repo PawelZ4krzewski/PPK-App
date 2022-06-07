@@ -39,10 +39,18 @@
         android:id="@+id/ppkChoose"
         android:name="com.example.ubi.fragments.ppkChoose.PpkChooseFragment"
         android:label="fragment_ppk_choose"
-        tools:layout="@layout/fragment_ppk_choose" />
+        tools:layout="@layout/fragment_ppk_choose" >
+        <action
+            android:id="@+id/action_ppkChoose_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.ubi.activities.MainActivity"
         android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        tools:layout="@layout/activity_main" >
+        <argument
+            android:name="currentUser"
+            app:argType="com.example.ubi.database.user.User" />
+    </activity>
 </navigation>

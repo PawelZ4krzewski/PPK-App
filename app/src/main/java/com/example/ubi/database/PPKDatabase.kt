@@ -4,11 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.ubi.database.payment.PaymentDao
+import com.example.ubi.database.payment.Payment
+import com.example.ubi.database.user.User
+import com.example.ubi.database.user.UserDao
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Payment::class], version = 1, exportSchema = false)
 abstract class PPKDatabase: RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun PaymentDao(): PaymentDao
 
     companion object{
         @Volatile
