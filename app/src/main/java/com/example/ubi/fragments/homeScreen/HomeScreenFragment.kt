@@ -34,7 +34,6 @@ class HomeScreenFragment : Fragment() {
 
         val repository = PaymentRepository(dao)
 
-
         HomeScreenViewModel(repository,application, mainViewModel.user)
     }
 
@@ -60,8 +59,14 @@ class HomeScreenFragment : Fragment() {
             findNavController().navigate(R.id.action_homeScreenFragment_to_employeePaymentFragment2)
         }
 
-        setValues()
         collectFlow()
+        setValues()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("HomeScreen","On Resume")
+        setValues()
     }
 
     private fun setValues(){
@@ -88,7 +93,50 @@ class HomeScreenFragment : Fragment() {
                 if(it){
                     Log.d("HomeScreen",viewModel.ppk.toString())
                     mainViewModel.setPpk(viewModel.ppk)
+                    viewModel.setValues()
+//                    setValues()
+                    Log.d("HomeScreen","Values are set")
+                    viewModel.isPpkGot.value = false
                 }
+            }
+        }
+
+        lifecycleScope.launch{
+            viewModel.isPaymentGot.collect{
+                if(it){
+                    setValues()
+                }
+            }
+        }
+
+        lifecycleScope.launch{
+            viewModel.stateOfFunds.collect{
+                binding.TotalFunds.text = it + " zł"
+            }
+        }
+        lifecycleScope.launch{
+            viewModel.totalPayment.collect{
+                binding.paymentValue.text = it + " zł"
+            }
+        }
+        lifecycleScope.launch{
+            viewModel.ownPayment.collect{
+                binding.ownPaymentValue.text = it + " zł"
+            }
+        }
+        lifecycleScope.launch{
+            viewModel.empPayment.collect{
+                binding.empPaymentValue.text = it + " zł"
+            }
+        }
+        lifecycleScope.launch{
+            viewModel.statePayment.collect{
+                binding.countryPaymentValue.text = it + " zł"
+            }
+        }
+        lifecycleScope.launch{
+            viewModel.inflationPayment.collect{
+                binding.inflationValue.text = it + " zł"
             }
         }
     }

@@ -10,6 +10,7 @@ import com.example.ubi.database.payment.Payment
 import com.example.ubi.database.payment.PaymentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.sql.Timestamp
@@ -28,6 +29,10 @@ class employeePaymentViewModel(private val repository: PaymentRepository, applic
     private val _ownPayment = MutableStateFlow("")
     private val _empPayment = MutableStateFlow("")
     private val _date = MutableStateFlow("")
+
+    val isAddPaymentEnable = combine(_ownPayment, _empPayment, _date) { ownPayment, empPayment, date ->
+        return@combine  ownPayment.isNotBlank() && empPayment.isNotBlank() && date.isNotBlank()
+    }
 
     val addPaymentToast = MutableStateFlow(false)
 

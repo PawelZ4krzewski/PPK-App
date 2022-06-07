@@ -2,6 +2,7 @@ package com.example.ubi.fragments.employeePayment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,33 +57,56 @@ class employeePaymentFragment : Fragment() {
             viewModel.setOwnPayment(text.toString())
         }
 
+        binding.extEmpPerTextInputEditText.setOnFocusChangeListener { view, b ->
+            val text = binding.extEmpPerTextInputEditText.text.toString()
+            if(text.isNotBlank()) {
+                val companyValue = String.format(
+                    "%.2f",
+                    ((100 * text.toFloat() / (2 + mainViewModel.user.userPercentage)) * ((mainViewModel.user.companyPercentage + 1.5f)/ 100))
+                )
+                viewModel.setEmpPayment(companyValue)
+                binding.extCompanyPaymentTextInputEditText.setText(companyValue)
+            }
+        }
+
         binding.extCompanyPaymentTextInputEditText.doOnTextChanged { text, _, _, _ ->
             viewModel.setEmpPayment(text.toString())
+        }
+
+        binding.extCompanyPaymentTextInputEditText.setOnFocusChangeListener { view, b ->
+            val text = binding.extCompanyPaymentTextInputEditText.text.toString()
+            if(text.isNotBlank()) {
+                val ownValue = String.format(
+                    "%.2f",
+                    ((100 * text.toFloat() / (1.5f + mainViewModel.user.companyPercentage)) * ((2 + mainViewModel.user.userPercentage) / 100))
+                )
+                viewModel.setOwnPayment(ownValue)
+                binding.extEmpPerTextInputEditText.setText(ownValue)
+            }
         }
 
         binding.addPaymentButton.setOnClickListener {
             viewModel.addPayment(mainViewModel.user.userId, mainViewModel.ppk.values[mainViewModel.ppk.values.size-1])
         }
 
-        binding.dateInputEditText.doOnTextChanged{text,_,_,_ ->
+//        binding.dateInputEditText.doOnTextChanged{text,_,_,_ ->
 
-            if(viewModel.date.value == ""){
-                binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[mainViewModel.ppk.values.size-1]
-            }
-            else{
-                val date = viewModel.date.value
-                var minDate = POSITIVE_INFINITY
-                var index = 0
-                mainViewModel.ppk.dates.forEachIndexed(){i,ppkDate ->
-                    if(minDate > abs(ppkDate.toFloat() - date.toFloat()) ){
-                        minDate = abs(ppkDate.toFloat() - date.toFloat())
-                        index = i
-                    }
-                }
-                binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[index]
-            }
-
-        }
+//            if(viewModel.date.value == ""){
+//                binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[mainViewModel.ppk.values.size-1]
+//            }
+//            else{
+//                val date = viewModel.date.value
+//                var minDate = POSITIVE_INFINITY
+//                var index = 0
+//                mainViewModel.ppk.dates.forEachIndexed(){i,ppkDate ->
+//                    if(minDate > abs(ppkDate.toFloat() - date.toFloat())  && ppkDate.toFloat() <= date.toFloat()){
+//                        minDate = abs(ppkDate.toFloat() - date.toFloat())
+//                        index = i
+//                    }
+//                }
+//                binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[index]
+//            }
+//        }
 
         binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[mainViewModel.ppk.values.size-1]
 
@@ -103,8 +127,52 @@ class employeePaymentFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.isAddPaymentEnable.collect {
+                binding.addPaymentButton.isEnabled = it
+            }
+        }
+
+//        lifecycleScope.launch {
+//            viewModel.ownPayment.collect {
+//                if(it.isNotBlank()){
+//                    val companyValue = String.format(
+//                        "%.2f",
+//                        ((100 * it.toFloat() / mainViewModel.user.userPercentage) * (mainViewModel.user.companyPercentage / 100))
+//                    )
+//                    viewModel.setEmpPayment(companyValue)
+//                    binding.extCompanyPaymentTextInputEditText.setText(companyValue)
+//                }
+//            }
+//        }
+
+//        lifecycleScope.launch {
+//            viewModel.empPayment.collect {
+//                if(it.isNotBlank()) {
+//                    val ownValue = String.format(
+//                        "%.2f",
+//                        ((100 * it.toFloat() / mainViewModel.user.companyPercentage) * (mainViewModel.user.userPercentage / 100))
+//                    )
+//                    viewModel.setOwnPayment(ownValue)
+//                    binding.extEmpPerTextInputEditText.setText(ownValue)
+//                }
+//            }
+//        }
     }
 
+    private fun changeUnitValue(){
+        val date = viewModel.date.value
+        var minDate = POSITIVE_INFINITY
+        var index = 0
+        mainViewModel.ppk.dates.forEachIndexed(){i,ppkDate ->
+            if(minDate > abs(ppkDate.toFloat() - date.toFloat())  && ppkDate.toFloat() <= date.toFloat()){
+                minDate = abs(ppkDate.toFloat() - date.toFloat())
+                index = i
+            }
+        }
+        binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[index]
+    }
     private fun setupDatePicker(){
 
         val tvdatePicker = binding.dateInputEditText
@@ -116,14 +184,19 @@ class employeePaymentFragment : Fragment() {
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, day)
-
+            calendar.set(Calendar.HOUR, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
             updateLabel(calendar)
+            Log.d("Date",calendar.timeInMillis.toString())
+            viewModel.setDate(calendar.timeInMillis.toString())
+            changeUnitValue()
         }
 
 
         tvdatePicker.setOnClickListener {
             DatePickerDialog(requireContext(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
-            viewModel.setDate(calendar.timeInMillis.toString())
         }
     }
 

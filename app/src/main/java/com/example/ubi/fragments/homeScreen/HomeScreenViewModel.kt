@@ -16,8 +16,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class HomeScreenViewModel(private val repository: PaymentRepository, application: Application, _user: User) :
     AndroidViewModel(application){
@@ -46,16 +49,15 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
 
     val isLoading = MutableStateFlow(false)
     val isPpkGot = MutableStateFlow(false)
+    val isPaymentGot = MutableStateFlow(false)
 
     init {
         getPpk()
         getPayments()
-
-
         Log.d("PPKVM", _userPayments.toString())
     }
 
-    fun getPpk() {
+    private fun getPpk() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 isLoading.value = true
@@ -74,7 +76,7 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         }
     }
 
-    fun makePpk(): Ppk {
+    private fun makePpk(): Ppk {
 
             val url = "https://www.bankier.pl/fundusze/notowania/" + user.ppkId
             getInformationAboutPpk(url).apply {
@@ -124,14 +126,44 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         return listOf<MutableList<String>>(tmstmp, values)
     }
 
-    fun getPayments(){
+    private fun getPayments(){
         viewModelScope.launch{
             val payments = repository.getUserPayment(userId = user.userId)
             Log.d("Home Screen", payments.toString())
             if(payments != null){
                 _userPayments.value = payments
+                isPaymentGot.value = true
             }
         }
+    }
+
+    fun setValues(){
+
+        stateOfFunds.value = "0"
+        ownPayment.value = "0"
+        empPayment.value = "0"
+        statePayment.value = "0"
+
+        _userPayments.value.forEach {
+            stateOfFunds.value = (stateOfFunds.value.toFloat() + it.ppkAmount).toString()
+            ownPayment.value = (ownPayment.value.toFloat() + it.userPayment).toString()
+            empPayment.value = (empPayment.value.toFloat() + it.ppkAmount).toString()
+            statePayment.value = (statePayment.value.toFloat() + it.countryPayment).toString()
+        }
+
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+
+        val todayValue = ppk.values[ppk.values.size - 1].toFloat()
+        val fullStateOfFunds = df.format(todayValue * stateOfFunds.value.toFloat())
+
+        stateOfFunds.value = fullStateOfFunds.toString()
+
+        totalPayment.value = (df.format(ownPayment.value.toFloat() + empPayment.value.toFloat() + statePayment.value.toFloat())).toString()
+
+        ownPayment.value = df.format(ownPayment.value.toFloat()).toString()
+        empPayment.value = df.format(empPayment.value.toFloat()).toString()
+        statePayment.value = df.format(statePayment.value.toFloat()).toString()
     }
 
 }
