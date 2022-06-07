@@ -6,14 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.ubi.R
 import com.example.ubi.activities.MainViewModel
 import com.example.ubi.database.PPKDatabase
 import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.databinding.FragmentEmployeePaymentBinding
 import com.example.ubi.fragments.homeScreen.HomeScreenViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.lang.Float.POSITIVE_INFINITY
+import java.lang.Math.abs
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,18 +56,53 @@ class employeePaymentFragment : Fragment() {
             viewModel.setOwnPayment(text.toString())
         }
 
-        binding.companyNameTextInputEditText.doOnTextChanged { text, _, _, _ ->
+        binding.extCompanyPaymentTextInputEditText.doOnTextChanged { text, _, _, _ ->
             viewModel.setEmpPayment(text.toString())
         }
 
-        binding.dateInputEditText.doOnTextChanged { text, _, _, _ ->
-            viewModel.setDate(text.toString())
+        binding.addPaymentButton.setOnClickListener {
+            viewModel.addPayment(mainViewModel.user.userId, mainViewModel.ppk.values[mainViewModel.ppk.values.size-1])
+        }
+
+        binding.dateInputEditText.doOnTextChanged{text,_,_,_ ->
+
+            if(viewModel.date.value == ""){
+                binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[mainViewModel.ppk.values.size-1]
+            }
+            else{
+                val date = viewModel.date.value
+                var minDate = POSITIVE_INFINITY
+                var index = 0
+                mainViewModel.ppk.dates.forEachIndexed(){i,ppkDate ->
+                    if(minDate > abs(ppkDate.toFloat() - date.toFloat()) ){
+                        minDate = abs(ppkDate.toFloat() - date.toFloat())
+                        index = i
+                    }
+                }
+                binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[index]
+            }
+
         }
 
         binding.unitValuetTextInputEditText.text = mainViewModel.ppk.values[mainViewModel.ppk.values.size-1]
 
         setupDatePicker()
+        collectFlow()
+    }
 
+    private fun collectFlow() {
+
+        lifecycleScope.launch {
+            viewModel.addPaymentToast.collect {
+                if(it){
+                    Toast.makeText(requireContext(),"Payment is added!", Toast.LENGTH_LONG).show()
+                    viewModel.addPaymentToast.value = false
+                    binding.extEmpPerTextInputEditText.setText(viewModel.ownPayment.value)
+                    binding.extCompanyPaymentTextInputEditText.setText(viewModel.ownPayment.value)
+                    binding.dateInputEditText.setText(viewModel.date.value)
+                }
+            }
+        }
     }
 
     private fun setupDatePicker(){
@@ -78,12 +120,15 @@ class employeePaymentFragment : Fragment() {
             updateLabel(calendar)
         }
 
+
         tvdatePicker.setOnClickListener {
             DatePickerDialog(requireContext(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+            viewModel.setDate(calendar.timeInMillis.toString())
         }
     }
+
     private fun updateLabel(calendar: Calendar) {
-        val myFormat = "dd/MM/yyyy"
+        val myFormat = "yyyy/MM/dd"
         val sdf = SimpleDateFormat(myFormat, Locale.GERMANY)
         binding.dateInputEditText.setText(sdf.format(calendar.time))
     }

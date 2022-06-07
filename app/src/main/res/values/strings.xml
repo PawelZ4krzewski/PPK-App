@@ -35,4 +35,5 @@
     <string name="countryPayment">State\'s Payments</string>
     <string name="inflation">With Inflation</string>
     <string name="totalFundValue">Total FundsValue</string>
+    <string name="clickToAddPayment">Click to add payment</string>
 </resources>

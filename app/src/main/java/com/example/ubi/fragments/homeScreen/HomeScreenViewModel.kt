@@ -19,10 +19,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
-class HomeScreenViewModel(private val repository: PaymentRepository, application: Application) :
+class HomeScreenViewModel(private val repository: PaymentRepository, application: Application, _user: User) :
     AndroidViewModel(application){
 
-    private var _user: User? = null
+    private val user: User = _user
     private var _ppk: Ppk? = null
 
     private val _stateOfFunds = MutableStateFlow("0")
@@ -35,7 +35,6 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
     private val _userPayments = MutableStateFlow(listOf<Payment>())
 
 
-    val user get() = _user!!
     val ppk get() = _ppk!!
     val stateOfFunds get() = _stateOfFunds
     val totalPayment get() = _totalPayment
@@ -44,17 +43,15 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
     val statePayment get() = _statePayment
     val inflationPayment get() = _inflationPayment
 
-    fun setUser(user: User) {
-        _user = user
-    }
-
 
     val isLoading = MutableStateFlow(false)
-
+    val isPpkGot = MutableStateFlow(false)
 
     init {
         getPpk()
         getPayments()
+
+
         Log.d("PPKVM", _userPayments.toString())
     }
 
@@ -70,7 +67,9 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
             } catch (e: Exception) {
                 Log.e("JSOUP", e.toString())
             } finally {
+                Log.d("HomeScreen","PPK Można dodawać")
                 isLoading.value = false
+                isPpkGot.value = true
             }
         }
     }
@@ -128,7 +127,7 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
     fun getPayments(){
         viewModelScope.launch{
             val payments = repository.getUserPayment(userId = user.userId)
-
+            Log.d("Home Screen", payments.toString())
             if(payments != null){
                 _userPayments.value = payments
             }

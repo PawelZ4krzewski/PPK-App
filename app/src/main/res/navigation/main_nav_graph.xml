@@ -9,21 +9,17 @@
         android:id="@+id/employeePaymentFragment2"
         android:name="com.example.ubi.fragments.employeePayment.employeePaymentFragment"
         android:label="fragment_employee_payment"
-        tools:layout="@layout/fragment_employee_payment" >
-        <argument
-            android:name="currenctUser"
-            app:argType="com.example.ubi.database.user.User" />
-    </fragment>
+        tools:layout="@layout/fragment_employee_payment" />
     <fragment
         android:id="@+id/homeScreenFragment"
         android:name="com.example.ubi.fragments.homeScreen.HomeScreenFragment"
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen" >
-        <argument
-            android:name="currentUser"
-            app:argType="com.example.ubi.database.user.User" />
         <action
             android:id="@+id/action_homeScreenFragment_to_employeePaymentFragment2"
             app:destination="@id/employeePaymentFragment2" />
+        <argument
+            android:name="currentUser"
+            app:argType="com.example.ubi.database.user.User" />
     </fragment>
 </navigation>

@@ -11,8 +11,8 @@ private val application: Application
 ): ViewModelProvider.Factory{
     @Suppress("Unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(HomeScreenViewModel::class.java)) {
-            return HomeScreenViewModel(repository, application) as T
+        if(modelClass.isAssignableFrom(employeePaymentViewModel::class.java)) {
+            return employeePaymentViewModel(repository, application) as T
         }
         throw IllegalArgumentException("Unknown View Model Class")
     }

@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.ubi.R
 import com.example.ubi.activities.LoginViewModel
 import com.example.ubi.activities.MainViewModel
 import com.example.ubi.database.PPKDatabase
@@ -33,7 +35,7 @@ class HomeScreenFragment : Fragment() {
         val repository = PaymentRepository(dao)
 
 
-        HomeScreenViewModel(repository,application)
+        HomeScreenViewModel(repository,application, mainViewModel.user)
     }
 
     private var _binding: FragmentHomeScreenBinding? = null
@@ -52,14 +54,18 @@ class HomeScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setUser(mainViewModel.user)
-        Log.d("Home Screen", viewModel.user.toString())
+//        Log.d("Home Screen", viewModel.user.toString())
+
+        binding.addPaymentButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_employeePaymentFragment2)
+        }
+
         setValues()
         collectFlow()
     }
 
     private fun setValues(){
-        binding.ppkName.text = mainViewModel.user.ppkName + " zł"
+        binding.ppkName.text = mainViewModel.user.ppkName
         binding.TotalFunds.text = viewModel.stateOfFunds.value + " zł"
         binding.paymentValue.text = viewModel.totalPayment.value + " zł"
         binding.ownPaymentValue.text = viewModel.ownPayment.value + " zł"
@@ -69,10 +75,18 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun collectFlow(){
+
         lifecycleScope.launch {
             viewModel.isLoading.collect {
                 binding.swipeRefresh.isRefreshing = it
-                if(!it){
+                binding.addPaymentButton.isClickable = !it
+            }
+        }
+
+        lifecycleScope.launch{
+            viewModel.isPpkGot.collect{
+                if(it){
+                    Log.d("HomeScreen",viewModel.ppk.toString())
                     mainViewModel.setPpk(viewModel.ppk)
                 }
             }

@@ -82,7 +82,7 @@
         app:layout_constraintVertical_chainStyle="packed"
         >
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/companyNameTextInputEditText"
+            android:id="@+id/extCompanyPaymentTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
@@ -148,7 +148,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/unitValueTextView"
-        app:layout_constraintBottom_toTopOf="@+id/addExtInfoButton"
+        app:layout_constraintBottom_toTopOf="@+id/addPaymentButton"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="25dp"
@@ -166,7 +166,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addExtInfoButton"
+        android:id="@+id/addPaymentButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
