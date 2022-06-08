@@ -56,7 +56,7 @@ class HomeScreenFragment : Fragment() {
 //        Log.d("Home Screen", viewModel.user.toString())
 
         binding.addPaymentButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_employeePaymentFragment2)
+            findNavController().navigate(R.id.action_homeScreenFragment_to_countryPaymentFragment)
         }
 
         collectFlow()

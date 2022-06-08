@@ -11,17 +11,14 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.ubi.R
 import com.example.ubi.activities.MainViewModel
 import com.example.ubi.database.PPKDatabase
 import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.databinding.FragmentEmployeePaymentBinding
-import com.example.ubi.fragments.homeScreen.HomeScreenViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Float.POSITIVE_INFINITY
 import java.lang.Math.abs
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -85,8 +82,12 @@ class employeePaymentFragment : Fragment() {
             }
         }
 
+        binding.unitValuetTextInputEditText.doOnTextChanged { text, _, _, _ ->
+            viewModel.setUnitValue(text.toString())
+        }
+
         binding.addPaymentButton.setOnClickListener {
-            viewModel.addPayment(mainViewModel.user.userId, mainViewModel.ppk.values[mainViewModel.ppk.values.size-1])
+            viewModel.addPayment(mainViewModel.user.userId)
         }
 
 //        binding.dateInputEditText.doOnTextChanged{text,_,_,_ ->

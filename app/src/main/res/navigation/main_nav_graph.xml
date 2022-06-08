@@ -21,5 +21,13 @@
         <argument
             android:name="currentUser"
             app:argType="com.example.ubi.database.user.User" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_countryPaymentFragment"
+            app:destination="@id/countryPaymentFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/countryPaymentFragment"
+        android:name="com.example.ubi.fragments.countryPayment.countryPaymentFragment"
+        android:label="fragment_country_payment"
+        tools:layout="@layout/fragment_country_payment" />
 </navigation>

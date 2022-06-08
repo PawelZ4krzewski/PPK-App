@@ -28,14 +28,14 @@
         android:text="@string/ext_emp_per"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ppkName"
-        app:layout_constraintBottom_toTopOf="@+id/extEmpPerTextInputLayout"
+        app:layout_constraintBottom_toTopOf="@+id/countryPaymentTextInputLayout"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintVertical_chainStyle="packed"
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/extEmpPerTextInputLayout"
+        android:id="@+id/countryPaymentTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
         android:text="@string/company_name"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/extEmpPerTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/countryPaymentTextInputLayout"
         app:layout_constraintBottom_toTopOf="@+id/companyNameTextInputLayout"
         app:layout_constraintVertical_chainStyle="packed" />
 

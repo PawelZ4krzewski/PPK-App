@@ -29,6 +29,7 @@ class employeePaymentViewModel(private val repository: PaymentRepository, applic
     private val _ownPayment = MutableStateFlow("")
     private val _empPayment = MutableStateFlow("")
     private val _date = MutableStateFlow("")
+    private val _unitValue = MutableStateFlow("")
 
     val isAddPaymentEnable = combine(_ownPayment, _empPayment, _date) { ownPayment, empPayment, date ->
         return@combine  ownPayment.isNotBlank() && empPayment.isNotBlank() && date.isNotBlank()
@@ -44,6 +45,8 @@ class employeePaymentViewModel(private val repository: PaymentRepository, applic
 
     val date
             get() = _date
+    val unitValue
+            get() = _unitValue
 
     fun setOwnPayment(payment: String) {
         _ownPayment.value = payment
@@ -56,13 +59,16 @@ class employeePaymentViewModel(private val repository: PaymentRepository, applic
     fun setDate(date: String) {
         _date.value = date
     }
+    fun setUnitValue(unitValue: String) {
+        _unitValue.value = unitValue
+    }
 
 
-    fun addPayment(userId: Int, unitValue: String){
+    fun addPayment(userId: Int){
 
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.DOWN
-        val ppkAmount = df.format((ownPayment.value.toFloat() + empPayment.value.toFloat()) / unitValue.toFloat()).toFloat()
+        val ppkAmount = df.format((ownPayment.value.toFloat() + empPayment.value.toFloat()) / unitValue.value.toFloat()).toFloat()
         val payment = Payment(0,userId, ownPayment.value.toFloat(), empPayment.value.toFloat(), 0f, ppkAmount, date.value)
 
         viewModelScope.launch(Dispatchers.IO) {
