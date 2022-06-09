@@ -72,6 +72,13 @@ class ProfilViewModel(private val repository: PaymentRepository, application: Ap
         }
 
         return FileProvider.getUriForFile(context,"com.example.ubi.fileprovider",myFile)
+    }
 
+    fun importData(context:Context, uri: Uri){
+
+        val mimeType = uri.let { returnUri ->
+            context.contentResolver.getType(returnUri)
+        }
+        Log.d("Profil", mimeType.toString())
     }
 }
