@@ -103,11 +103,16 @@ class ProfileFragment : Fragment() {
     private var fileActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),ActivityResultCallback<ActivityResult>{ result ->
             if(result.resultCode == Activity.RESULT_OK){
+                Toast.makeText(requireContext(),"Open file successful!",Toast.LENGTH_LONG).show()
 
                 val intent = result.data
                 val uri = intent?.data
-                viewModel.importData(requireContext(), uri!!)
-                Toast.makeText(requireContext(),"Open file successful!",Toast.LENGTH_LONG).show()
+                if(viewModel.importData(requireContext(), uri!!)){
+                    Toast.makeText(requireContext(),"Import payment successful!",Toast.LENGTH_LONG).show()
+                }
+                else {
+                    Toast.makeText(requireContext(),"Import payment ERROR!",Toast.LENGTH_LONG).show()
+                }
             }
             else{
                 Toast.makeText(requireContext(),"Open file ERROR!",Toast.LENGTH_LONG).show()

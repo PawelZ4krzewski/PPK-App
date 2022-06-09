@@ -74,7 +74,6 @@ class HomeScreenFragment : Fragment() {
         super.onResume()
         viewModel.getPayments()
         Log.d("HomeScreen","On Resume")
-//        setValues()
     }
 
     private fun setValues(){
