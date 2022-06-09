@@ -14,11 +14,21 @@ import androidx.navigation.fragment.navArgs
 import com.example.ubi.R
 import com.example.ubi.activities.LoginViewModel
 import com.example.ubi.activities.MainViewModel
+import com.example.ubi.adapters.PpkRvAdapter
 import com.example.ubi.database.PPKDatabase
+import com.example.ubi.database.Ppk
 import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.database.user.UserRepository
 import com.example.ubi.databinding.FragmentHomeScreenBinding
 import com.example.ubi.fragments.ppkChoose.PpkChooseViewModel
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -95,6 +105,10 @@ class HomeScreenFragment : Fragment() {
                     Log.d("HomeScreen",viewModel.ppk.toString())
                     mainViewModel.setPpk(viewModel.ppk)
 
+                    //Chart
+                    initChart(viewModel.ppk)
+                    setDataToLineChart(viewModel.ppk)
+
                     if(viewModel.isPaymentGot.value){
                         viewModel.setValues()
                         setValues()
@@ -148,5 +162,73 @@ class HomeScreenFragment : Fragment() {
                 binding.inflationValue.text = it + " zł"
             }
         }
+    }
+
+    private fun initChart(ppk: Ppk)
+    {
+        val lineChart = binding.lineChart
+
+        lineChart.axisLeft.setDrawGridLines(false)
+        lineChart.setTouchEnabled(false)
+
+        val xAxis: XAxis = lineChart.xAxis
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(true)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+        xAxis.valueFormatter = MyAxisFormatter(ppk)
+        xAxis.setDrawLabels(false)
+        xAxis.granularity = 1f
+        xAxis.labelRotationAngle = +90f
+
+        val leftAxis: YAxis = lineChart.axisLeft
+        leftAxis.textSize = 15f
+
+        //remove right y-axis
+        lineChart.axisRight.isEnabled = false
+
+        //remove legend
+        lineChart.legend.isEnabled = false
+
+
+        //remove description label
+        lineChart.description.isEnabled = false
+
+        //add animation
+        lineChart.animateX(1000, Easing.EaseInSine)
+
+    }
+
+    inner class MyAxisFormatter(private val ppk: Ppk) : IndexAxisValueFormatter() {
+
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            val index = value.toInt()
+            return if (index < ppk.dates.size) {
+                ppk.dates[index]
+            } else {
+                ""
+            }
+        }
+    }
+
+    private fun setDataToLineChart(ppk: Ppk) {
+
+        val lineChart = binding.lineChart
+
+        //now draw bar chart with dynamic data
+        val entries: ArrayList<Entry> = ArrayList()
+
+        //you can replace this data object with  your custom object
+        for (i in 0..(ppk.values.size-1)) {
+
+            entries.add(Entry(i.toFloat(), ppk.values[i].toFloat()))
+        }
+
+        val lineDataSet = LineDataSet(entries, "")
+        lineDataSet.setColor(R.color.black)
+        lineDataSet.setDrawCircles(false)
+        val data = LineData(lineDataSet)
+        lineChart.data = data
+
+        lineChart.invalidate()
     }
 }
