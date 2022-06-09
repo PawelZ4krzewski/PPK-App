@@ -23,7 +23,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.ofPattern
 
-class employeePaymentViewModel(private val repository: PaymentRepository, application: Application) :
+class EmployeePaymentViewModel(private val repository: PaymentRepository, application: Application) :
     AndroidViewModel(application) {
 
     private val _ownPayment = MutableStateFlow("")

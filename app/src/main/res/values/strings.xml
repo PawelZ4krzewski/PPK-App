@@ -37,4 +37,6 @@
     <string name="totalFundValue">Total FundsValue</string>
     <string name="clickToAddPayment">Click to add payment</string>
     <string name="add_country_payment">Add state payment</string>
+    <string name="Home">Home</string>
+    <string name="profile">Profile</string>
 </resources>

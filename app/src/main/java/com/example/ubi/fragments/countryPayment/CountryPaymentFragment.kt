@@ -21,13 +21,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class countryPaymentFragment : Fragment() {
+class CountryPaymentFragment : Fragment() {
 
     private val viewModel by lazy{
         val application = requireNotNull(this.activity).application
         val dao = PPKDatabase.getDatabase(application).PaymentDao()
         val repository = PaymentRepository(dao)
-        countryPaymentViewModel(repository,application)
+        CountryPaymentViewModel(repository,application)
     }
 
     private val mainViewModel: MainViewModel by activityViewModels()

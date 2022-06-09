@@ -4,15 +4,15 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.ubi.database.payment.PaymentRepository
-import com.example.ubi.fragments.homeScreen.HomeScreenViewModel
+import com.example.ubi.fragments.countryPayment.CountryPaymentViewModel
 
-class employeePaymentViewModelFragment(private  val repository: PaymentRepository,
-private val application: Application
+class countryPaymentViewModelFragment(private  val repository: PaymentRepository,
+                                       private val application: Application
 ): ViewModelProvider.Factory{
     @Suppress("Unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(employeePaymentViewModel::class.java)) {
-            return employeePaymentViewModel(repository, application) as T
+        if(modelClass.isAssignableFrom(CountryPaymentViewModel::class.java)) {
+            return CountryPaymentViewModel(repository, application) as T
         }
         throw IllegalArgumentException("Unknown View Model Class")
     }

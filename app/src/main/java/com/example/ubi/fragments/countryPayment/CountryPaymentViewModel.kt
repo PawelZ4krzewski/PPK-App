@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-class countryPaymentViewModel(private val repository: PaymentRepository, application: Application) :
+class CountryPaymentViewModel(private val repository: PaymentRepository, application: Application) :
     AndroidViewModel(application) {
     private val _countryPayment = MutableStateFlow("")
     private val _date = MutableStateFlow("")

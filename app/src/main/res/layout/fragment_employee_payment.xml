@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.employeePayment.employeePaymentFragment">
+    tools:context=".fragments.employeePayment.EmployeePaymentFragment">
 
     <TextView
         android:id="@+id/ppkName"
@@ -16,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         />
 
 
@@ -43,7 +44,6 @@
         app:layout_constraintBottom_toTopOf="@id/companyNameTextView"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="25dp"
         app:layout_constraintVertical_chainStyle="packed"
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -78,7 +78,6 @@
         app:layout_constraintBottom_toTopOf="@id/extCompPerTextView"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="25dp"
         app:layout_constraintVertical_chainStyle="packed"
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -114,7 +113,6 @@
         app:layout_constraintBottom_toTopOf="@id/unitValueTextView"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="25dp"
         app:layout_constraintVertical_chainStyle="packed"
         >
 
@@ -151,7 +149,6 @@
         app:layout_constraintBottom_toTopOf="@+id/addPaymentButton"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="25dp"
         app:layout_constraintVertical_chainStyle="packed"
         >
 
@@ -165,11 +162,10 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/addPaymentButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/Add_payment"
@@ -177,9 +173,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/unitValueTextInputLayout"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_marginBottom="30dp"
-        app:strokeColor="@color/navy"
+        android:layout_marginBottom="60dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

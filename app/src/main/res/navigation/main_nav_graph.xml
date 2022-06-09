@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/employeePaymentFragment2"
-        android:name="com.example.ubi.fragments.employeePayment.employeePaymentFragment"
+        android:name="com.example.ubi.fragments.employeePayment.EmployeePaymentFragment"
         android:label="fragment_employee_payment"
         tools:layout="@layout/fragment_employee_payment" />
     <fragment
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/countryPaymentFragment"
-        android:name="com.example.ubi.fragments.countryPayment.countryPaymentFragment"
+        android:name="com.example.ubi.fragments.countryPayment.CountryPaymentFragment"
         android:label="fragment_country_payment"
         tools:layout="@layout/fragment_country_payment" />
 </navigation>
