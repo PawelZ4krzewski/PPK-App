@@ -22,12 +22,12 @@
     <string name="ext_emp_per">Additional Employee Percent</string>
     <string name="decimal">12,34</string>
     <string name="percentage">Extra in %</string>
-    <string name="company_name">Company Name</string>
+    <string name="company_name">Company Name: </string>
     <string name="ext_comp_per">Additional Company Percentages</string>
     <string name="next">Next</string>
     <string name="ppk">PPK</string>
     <string name="choose">Choose</string>
-    <string name="ppkName">PPK Name</string>
+    <string name="ppkName">PPK Name: </string>
     <string name="stateOfFunds">STATE OF FUNDS</string>
     <string name="payment">Payment</string>
     <string name="ownPayment">Own Payments</string>
@@ -39,4 +39,8 @@
     <string name="add_country_payment">Add state payment</string>
     <string name="Home">Home</string>
     <string name="profile">Profile</string>
+    <string name="extUserPer">Extra user\'s percentage: </string>
+    <string name="extCompPer">Extra company\'s percentage: </string>
+    <string name="export_data">EXPORT DATA</string>
+    <string name="import_data">IMPORT DATA</string>
 </resources>

@@ -1,13 +1,13 @@
-package com.example.ubi.fragments.homeScreen
+package com.example.ubi.fragments.profileFragment
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.ubi.database.Ppk
 import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.database.user.User
+import com.example.ubi.fragments.homeScreen.HomeScreenViewModel
 
-class HomeScreenViewModelFactory(
+class ProfilViewModelFactory(
     private  val repository: PaymentRepository,
     private val application: Application,
     private val user: User

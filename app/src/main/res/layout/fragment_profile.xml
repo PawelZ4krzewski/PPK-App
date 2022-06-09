@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.profileFragment.ProfileFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:layout_marginTop="50dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/companyNameLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:id="@+id/companyNameAlias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/company_name"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/companyNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/company_name"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/extUserLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:id="@+id/extUserPerAlias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extUserPer"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/extUserPerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/decimal"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/extCompLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:id="@+id/extCompPerAlias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extCompPer"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/extCompPerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/decimal"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ppkNameLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="45dp">
+
+        <TextView
+            android:id="@+id/ppkNameAlias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ppkName"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/ppkNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ppkName"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/changePasswordButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/change_password"
+        />
+
+    <Button
+        android:id="@+id/exportDataButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/export_data"
+        />
+
+    <Button
+        android:id="@+id/importDataButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/import_data"
+        />
+
+</LinearLayout>

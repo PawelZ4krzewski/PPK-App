@@ -71,6 +71,10 @@ dependencies {
     //charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    //Apache Commons to CSV files
+    implementation 'org.apache.commons:commons-csv:1.5'
+
+
 }
 repositories {
     mavenCentral()

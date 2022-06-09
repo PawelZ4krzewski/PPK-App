@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/activity_login.xml" value="0.11510416666666666" />
-        <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_company_choose.xml" value="0.2" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_country_payment.xml" value="0.23232323232323232" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_date_picker.xml" value="0.11302083333333333" />
@@ -12,6 +12,7 @@
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_home_screen.xml" value="0.19491525423728814" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_login.xml" value="0.2825520833333333" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_ppk_choose.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/fragment_register.xml" value="0.1" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/item_ppk.xml" value="0.16140350877192983" />
         <entry key="..\:/Users/Pawel/AndroidStudioProjects/Ubi/app/src/main/res/layout/ppk_item.xml" value="0.11302083333333333" />

@@ -65,9 +65,6 @@ class HomeScreenFragment : Fragment() {
 
 //        Log.d("Home Screen", viewModel.user.toString())
 
-        binding.addPaymentButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_countryPaymentFragment)
-        }
 
         collectFlow()
         setValues()
@@ -93,17 +90,15 @@ class HomeScreenFragment : Fragment() {
     private fun collectFlow(){
 
         lifecycleScope.launch {
-            viewModel.isLoading.collect {
+            mainViewModel.isLoading.collect {
                 binding.swipeRefresh.isRefreshing = it
-                binding.addPaymentButton.isClickable = !it
             }
         }
 
         lifecycleScope.launch{
-            viewModel.isPpkGot.collect{
+            mainViewModel.isPpkGot.collect{
                 if(it){
-                    Log.d("HomeScreen",viewModel.ppk.toString())
-                    mainViewModel.setPpk(viewModel.ppk)
+                    viewModel.setPpk(mainViewModel.ppk)
 
                     //Chart
                     initChart(viewModel.ppk)
@@ -121,11 +116,11 @@ class HomeScreenFragment : Fragment() {
         lifecycleScope.launch{
             viewModel.isPaymentGot.collect{
                 if(it){
-                    if(viewModel.isPpkGot.value){
+                    if(mainViewModel.isPpkGot.value){
                         Log.d("HomeScreen","Values are set")
                         viewModel.setValues()
                         setValues()
-                        Log.d("HomeScreen","isPpkGot" + viewModel.isPpkGot.value.toString())
+                        Log.d("HomeScreen","isPpkGot" + mainViewModel.isPpkGot.value.toString())
                     }
                     Log.d("HomeScreen","isPpkGot nie jest got a Payment jest")
                 }
