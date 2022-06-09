@@ -1,5 +1,7 @@
 package com.example.ubi.activities
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
@@ -19,6 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val countryPaymentFragment = CountryPaymentFragment()
     private val userFragment = ProfileFragment()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         supportActionBar?.hide()
@@ -44,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         mainModel.setUser(args.currentUser)
 
         navigate()
+
+
     }
 
     private fun navigate()
