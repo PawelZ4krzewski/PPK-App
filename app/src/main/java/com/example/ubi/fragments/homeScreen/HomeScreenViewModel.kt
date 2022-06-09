@@ -126,7 +126,8 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         return listOf<MutableList<String>>(tmstmp, values)
     }
 
-    private fun getPayments(){
+    fun getPayments(){
+        isPaymentGot.value = false
         viewModelScope.launch{
             val payments = repository.getUserPayment(userId = user.userId)
             Log.d("Home Screen", payments.toString())
@@ -134,6 +135,7 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
                 _userPayments.value = payments
                 isPaymentGot.value = true
             }
+
         }
     }
 

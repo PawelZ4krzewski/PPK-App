@@ -65,8 +65,9 @@ class HomeScreenFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.getPayments()
         Log.d("HomeScreen","On Resume")
-        setValues()
+//        setValues()
     }
 
     private fun setValues(){
@@ -93,10 +94,12 @@ class HomeScreenFragment : Fragment() {
                 if(it){
                     Log.d("HomeScreen",viewModel.ppk.toString())
                     mainViewModel.setPpk(viewModel.ppk)
-                    viewModel.setValues()
-//                    setValues()
-                    Log.d("HomeScreen","Values are set")
-                    viewModel.isPpkGot.value = false
+
+                    if(viewModel.isPaymentGot.value){
+                        viewModel.setValues()
+                        setValues()
+                        Log.d("HomeScreen","Values are set in is PPKGot")
+                    }
                 }
             }
         }
@@ -104,7 +107,13 @@ class HomeScreenFragment : Fragment() {
         lifecycleScope.launch{
             viewModel.isPaymentGot.collect{
                 if(it){
-                    setValues()
+                    if(viewModel.isPpkGot.value){
+                        Log.d("HomeScreen","Values are set")
+                        viewModel.setValues()
+                        setValues()
+                        Log.d("HomeScreen","isPpkGot" + viewModel.isPpkGot.value.toString())
+                    }
+                    Log.d("HomeScreen","isPpkGot nie jest got a Payment jest")
                 }
             }
         }
