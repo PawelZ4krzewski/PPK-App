@@ -117,10 +117,7 @@ class ProfileFragment : Fragment() {
             else{
                 Toast.makeText(requireContext(),"Open file ERROR!",Toast.LENGTH_LONG).show()
             }
-
         }
     )
-
-
 
 }

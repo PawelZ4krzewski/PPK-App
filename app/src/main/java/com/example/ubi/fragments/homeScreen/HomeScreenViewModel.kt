@@ -82,7 +82,7 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         _userPayments.value.forEach {
             stateOfFunds.value = (stateOfFunds.value.toFloat() + it.ppkAmount).toString()
             ownPayment.value = (ownPayment.value.toFloat() + it.userPayment).toString()
-            empPayment.value = (empPayment.value.toFloat() + it.ppkAmount).toString()
+            empPayment.value = (empPayment.value.toFloat() + it.companyPayment).toString()
             statePayment.value = (statePayment.value.toFloat() + it.countryPayment).toString()
         }
 
