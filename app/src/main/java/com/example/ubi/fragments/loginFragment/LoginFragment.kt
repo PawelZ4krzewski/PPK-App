@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.ubi.R
 import com.example.ubi.database.PPKDatabase
@@ -15,6 +16,8 @@ import com.example.ubi.database.user.User
 import com.example.ubi.database.user.UserRepository
 import com.example.ubi.database.user.UserVIewModel
 import com.example.ubi.databinding.FragmentLoginBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 class LoginFragment : Fragment() {
@@ -46,10 +49,6 @@ class LoginFragment : Fragment() {
 
         mUserViewModel = ViewModelProvider(this).get(UserVIewModel::class.java)
 
-
-
-//        loginUserViewModel = ViewModelProvider(this,factory).get(loginUserViewModel::class.java)
-
         return binding.root
     }
 
@@ -78,35 +77,11 @@ class LoginFragment : Fragment() {
     private fun setupLoginClick(){
 
         binding.loginButton.setOnClickListener {
-            val usernameLayout = binding.usernameTextInputLayout
-            val passwordLayout = binding.passwordTextInputLayout
 
             val username = binding.usernameTextInputEditText.text?.trim().toString()
             val password = binding.passwordTextInputEditText.text?.trim().toString()
 
-            var correct = true
-
-            if(username.isBlank()){
-                usernameLayout.error = "Username cannot be empty"
-                correct = false
-            }
-            else{
-                usernameLayout.error = ""
-            }
-
-            if(password.isBlank()){
-                passwordLayout.error = "Password cannot be empty"
-                correct = false
-            }
-            else{
-                passwordLayout.error = ""
-            }
-
-            if(correct)
-                loginUserViewModel.login(username,password)
-
-//            Toast.makeText(requireContext(),"Uncorrect username or Password",Toast.LENGTH_LONG).show()
-
+            loginUserViewModel.login(username,password)
 
         }
     }
@@ -119,7 +94,34 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(it)
 //                if(it == LoginFragmentDirections.actionLoginFragmentToMainActivity()) {
 //                    requireActivity().finish()
-//                }
+            }
+        }
+
+        lifecycleScope.launch {
+            loginUserViewModel.isLoginAvailable.collect {
+                binding.loginButton.isEnabled = it
+            }
+        }
+
+        lifecycleScope.launch {
+            loginUserViewModel.isIncorrectUsername.collect {
+                if(it){
+                    binding.usernameTextInputLayout.error = "Username is incorrect."
+                }
+                else{
+                    binding.usernameTextInputLayout.error = ""
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            loginUserViewModel.isIncorrectPassword.collect {
+                if(it){
+                    binding.passwordTextInputLayout.error = "Password is incorrect."
+                }
+                else{
+                    binding.passwordTextInputLayout.error = ""
+                }
             }
         }
     }

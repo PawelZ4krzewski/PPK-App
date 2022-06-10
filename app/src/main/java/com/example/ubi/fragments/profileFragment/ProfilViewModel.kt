@@ -13,6 +13,7 @@ import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.database.user.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
@@ -68,10 +69,25 @@ class ProfilViewModel(private val repository: PaymentRepository, application: Ap
             Log.d("Profil view", "Plik juz istnieje")
         }
 
-        myFile.writeText(user.userName+";"+user.userPassword+"\n")
-        _userPayments.value.forEach{
-            myFile.appendText(it.paymentId.toString()+";"+it.userId.toString()+";"+it.userPayment.toString()+";"+it.companyPayment.toString()+";"+it.countryPayment.toString()+";"+it.ppkAmount.toString()+";"+it.date+"\n")
+        if(isPaymentGot.value){
+            myFile.writeText(user.userName+";"+user.userPassword+"\n")
+            _userPayments.value.forEach{
+                myFile.appendText(it.paymentId.toString()+";"+it.userId.toString()+";"+it.userPayment.toString()+";"+it.companyPayment.toString()+";"+it.countryPayment.toString()+";"+it.ppkAmount.toString()+";"+it.date+"\n")
+            }
         }
+        else{
+            viewModelScope.launch {
+                isPaymentGot.collect {
+                    if(it){
+                        myFile.writeText(user.userName+";"+user.userPassword+"\n")
+                        _userPayments.value.forEach{
+                            myFile.appendText(it.paymentId.toString()+";"+it.userId.toString()+";"+it.userPayment.toString()+";"+it.companyPayment.toString()+";"+it.countryPayment.toString()+";"+it.ppkAmount.toString()+";"+it.date+"\n")
+                        }
+                    }
+                }
+            }
+        }
+
 
         return FileProvider.getUriForFile(context,"com.example.ubi.fileprovider",myFile)
     }

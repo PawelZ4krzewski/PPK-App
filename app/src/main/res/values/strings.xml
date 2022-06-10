@@ -43,4 +43,5 @@
     <string name="extCompPer">Extra company\'s percentage: </string>
     <string name="export_data">EXPORT DATA</string>
     <string name="import_data">IMPORT DATA</string>
+    <string name="logout">LOGOUT</string>
 </resources>

@@ -16,6 +16,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.ubi.R
 import com.example.ubi.activities.MainViewModel
 import com.example.ubi.database.PPKDatabase
@@ -69,21 +70,30 @@ class ProfileFragment : Fragment() {
 
 
         binding.exportDataButton.setOnClickListener {
-            val uriFile = viewModel.exportData(requireContext())
-
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.type = "text/plain"
-            intent.putExtra(Intent.EXTRA_SUBJECT,"Ppk export")
-            intent.putExtra(Intent.EXTRA_STREAM, uriFile)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            startActivity(Intent.createChooser(intent,"Share Via"))
+                val uriFile = viewModel.exportData(requireContext())
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Ppk export")
+                intent.putExtra(Intent.EXTRA_STREAM, uriFile)
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                startActivity(Intent.createChooser(intent,"Share Via"))
         }
 
         binding.importDataButton.setOnClickListener {
             pickFile()
         }
 
+        binding.logoutButton.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_loginActivity)
+            requireActivity().finish()
+        }
+
         setValues()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getPayments()
     }
 
     private fun setValues(){

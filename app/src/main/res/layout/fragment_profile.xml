@@ -113,16 +113,6 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <Button
-        android:id="@+id/changePasswordButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="30dp"
-        android:text="@string/change_password"
-        />
-
-    <Button
         android:id="@+id/exportDataButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -140,6 +130,16 @@
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="30dp"
         android:text="@string/import_data"
+        />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/logout"
         />
 
 </LinearLayout>

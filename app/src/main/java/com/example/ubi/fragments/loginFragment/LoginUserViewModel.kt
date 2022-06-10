@@ -7,6 +7,7 @@ import androidx.navigation.NavDirections
 import com.example.ubi.database.user.User
 import com.example.ubi.database.user.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -16,10 +17,15 @@ AndroidViewModel(application) {
 
     private val _username = MutableStateFlow("")
     private val _password = MutableStateFlow("")
-    private val _isLoged = MutableLiveData<Boolean>()
-    private val _isFailesLogin = MutableLiveData<Boolean>()
     val directionLiveData = MutableLiveData<NavDirections?>(null)
     var _user: User? = null
+
+    val isIncorrectUsername = MutableStateFlow(false)
+    val isIncorrectPassword = MutableStateFlow(false)
+
+    val isLoginAvailable = combine(_username, _password){ username, password->
+        return@combine username.isNotBlank() && password.isNotBlank()
+    }
 
     fun setUsername(username: String){
         _username.value = username
@@ -29,7 +35,10 @@ AndroidViewModel(application) {
     }
 
     fun login(username: String, password: String){
-//        CoroutineScope(Dispatchers.Main + Job()).launch{
+
+        isIncorrectUsername.value = false
+        isIncorrectPassword.value = false
+
         viewModelScope.launch{
             val user = repository.getUser(username)
 
@@ -44,11 +53,11 @@ AndroidViewModel(application) {
                 }
                 else{
                     Log.d("LOGIN INF", "Incorrect Password: corect"+ user.userPassword + " your "+ md5(password))
-                    _isFailesLogin.value = true
+                    isIncorrectPassword.value = true
                 }
             }
             else{
-                _isFailesLogin.value = true
+                isIncorrectUsername.value = true
             }
         }
     }

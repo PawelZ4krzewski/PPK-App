@@ -91,6 +91,7 @@ class HomeScreenFragment : Fragment() {
         lifecycleScope.launch {
             mainViewModel.isLoading.collect {
                 binding.swipeRefresh.isRefreshing = it
+                binding.swipeRefresh.isEnabled = it
             }
         }
 

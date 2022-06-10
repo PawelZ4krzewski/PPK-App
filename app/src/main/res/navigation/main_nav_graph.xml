@@ -30,4 +30,18 @@
         android:name="com.example.ubi.fragments.countryPayment.CountryPaymentFragment"
         android:label="fragment_country_payment"
         tools:layout="@layout/fragment_country_payment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.ubi.fragments.profileFragment.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.ubi.activities.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>
