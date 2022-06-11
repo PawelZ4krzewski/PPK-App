@@ -1,16 +1,29 @@
 package com.example.ubi.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.Window
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navArgs
+import com.example.ubi.NetworkConnection
 import com.example.ubi.R
 import com.example.ubi.fragments.countryPayment.CountryPaymentFragment
 import com.example.ubi.fragments.employeePayment.EmployeePaymentFragment
@@ -26,6 +39,7 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
+
     private val args by navArgs<HomeScreenFragmentArgs>()
 
     private val mainModel: MainViewModel by viewModels()
@@ -38,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
         supportActionBar?.hide()
 
         super.onCreate(savedInstanceState)
@@ -48,6 +63,22 @@ class MainActivity : AppCompatActivity() {
         mainModel.setUser(args.currentUser)
 
         navigate()
+
+        val networkConnection = NetworkConnection(applicationContext)
+
+        networkConnection.observe(this, Observer {  isConnected ->
+            if(isConnected){
+                mainModel.isInternet.value = true
+                findViewById<View>(R.id.noInternetLayout).visibility = GONE
+                findViewById<ConstraintLayout>(R.id.noInternetWhiteBox).visibility = GONE
+            }
+            else
+            {
+                mainModel.isInternet.value = false
+                findViewById<View>(R.id.noInternetLayout).visibility = VISIBLE
+                findViewById<ConstraintLayout>(R.id.noInternetWhiteBox).visibility = VISIBLE
+            }
+        })
 
 
     }
@@ -79,6 +110,6 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.fragmentContainer, fragment)
             transaction.commit()
         }
-
     }
+
 }

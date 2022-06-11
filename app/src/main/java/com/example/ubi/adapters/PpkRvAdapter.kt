@@ -1,5 +1,6 @@
 package com.example.ubi.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,11 @@ class PpkRvAdapter(
     }
 
     override fun onBindViewHolder(holder: PpkRvAdapter.PpkViewHolder, position: Int) {
+
+        Log.d("Recycle View", ppkList.size.toString())
+
         val ppk = ppkList[position]
+
         holder.ppkName.text = ppk.name
         holder.ppkValue.text = ppk.values[ppk.values.size - 1] + " zł"
 
@@ -50,6 +55,8 @@ class PpkRvAdapter(
         holder.chooseButton.setOnClickListener{
             listener.invoke(ppk)
         }
+
+
     }
 
     override fun getItemCount(): Int = ppkList.size

@@ -1,7 +1,12 @@
 package com.example.ubi.fragments.homeScreen
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,10 +19,12 @@ import com.example.ubi.database.user.UserRepository
 import com.example.ubi.fragments.loginFragment.LoginFragmentDirections
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import java.math.RoundingMode
@@ -54,17 +61,17 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
     val isInflationGot = MutableStateFlow(false)
     val isLoading = MutableStateFlow(false)
     val isPpkGot = MutableStateFlow(false)
+    val isDataDownloaded = MutableStateFlow(false)
 
     val ppk get() = _ppk!!
 
-
-    init {
+    fun startViewModel(){
         getPpk()
         downloadInflation()
         getPayments()
-        Log.d("PPKVM", _userPayments.toString())
-    }
 
+        if(isPaymentGot.value && isInflationGot.value && isPpkGot.value ) isDataDownloaded.value = true
+    }
 
     private fun getPpk() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -227,5 +234,6 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
             }
         }
     }
+
 
 }

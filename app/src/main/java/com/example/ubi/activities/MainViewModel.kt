@@ -20,6 +20,7 @@ class MainViewModel: ViewModel() {
     val ppk get() = _ppk!!
 
     val isPpkGot = MutableStateFlow(false)
+    val isInternet = MutableStateFlow(false)
 
 
     fun setUser(user: User) {

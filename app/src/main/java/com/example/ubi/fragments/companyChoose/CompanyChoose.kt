@@ -37,7 +37,7 @@ class CompanyChoose : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        companyChooseViewModel.setAdditionalPercentage(binding.extEmpPerTextInputEditText.text.toString())
         binding.extEmpPerTextInputEditText.doOnTextChanged{text,_,_,_ ->
             companyChooseViewModel.setAdditionalPercentage(text.toString())
             if(text.toString().isNotBlank()){
@@ -58,7 +58,7 @@ class CompanyChoose : Fragment() {
         binding.companyNameTextInputEditText.doOnTextChanged{text,_,_,_ ->
             companyChooseViewModel.setCompanyName(text.toString())
         }
-
+        companyChooseViewModel.setAdditionalCompanyPercentage(binding.extCompPerInputEditText.text.toString())
         binding.extCompPerInputEditText.doOnTextChanged{text,_,_,_ ->
             companyChooseViewModel.setAdditionalCompanyPercentage(text.toString())
             if(text.toString().isNotBlank()) {

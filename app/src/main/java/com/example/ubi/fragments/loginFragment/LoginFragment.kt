@@ -92,8 +92,9 @@ class LoginFragment : Fragment() {
             it?.let {
                 Log.d("Collect Flow", it.toString())
                 findNavController().navigate(it)
-//                if(it == LoginFragmentDirections.actionLoginFragmentToMainActivity()) {
+//                if(it == LoginFragmentDirections.actionLoginFragmentToMainActivity(loginUserViewModel._user!!)) {
 //                    requireActivity().finish()
+//                }
             }
         }
 

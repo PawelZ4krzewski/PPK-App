@@ -31,12 +31,12 @@ class PpkChooseViewModel : ViewModel() {
         )
     val ppkList = MutableStateFlow(listOf<Ppk>())
     val isLoading = MutableStateFlow(false)
-
+    val isPpkGot = MutableStateFlow(false)
+    val isPpkFailed = MutableStateFlow(false)
 
     init {
         getPpk()
     }
-
      fun getPpk() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -47,9 +47,11 @@ class PpkChooseViewModel : ViewModel() {
 
                 Log.d("PPKVM", ppkList.value.size.toString())
             } catch (e: Exception) {
+                isPpkFailed.value = true
                 Log.e("JSOUP", e.toString())
             } finally {
                 isLoading.value = false
+                isPpkGot.value = true
             }
         }
     }
@@ -66,7 +68,8 @@ class PpkChooseViewModel : ViewModel() {
 
         urlList.forEach { url ->
             getInformationAboutPpk(url[0]).apply {
-                ppks.add(Ppk(url[0].takeLast(5),url[1], this[1], this[0]))
+                if(this[1].size != 0 && this[0].size != 0)
+                    ppks.add(Ppk(url[0].takeLast(5),url[1], this[1], this[0]))
             }
         }
 
@@ -110,6 +113,7 @@ class PpkChooseViewModel : ViewModel() {
                 }
             }
         } catch (e: Exception) {
+            isPpkFailed.value = true
             Log.e("JSOUP", e.toString())
         }
         return listOf<MutableList<String>>(tmstmp, values)

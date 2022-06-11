@@ -53,6 +53,7 @@
             android:imeOptions="actionNext"
             android:inputType="numberDecimal"
             android:hint="@string/percentage"
+            android:text="@string/zero"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -122,8 +123,8 @@
             android:id="@+id/extCompPerInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
             android:hint="@string/percentage"
+            android:text="@string/zero"
             android:inputType="numberDecimal"
             />
 

@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.math.BigInteger
 import java.security.MessageDigest
+import java.util.Calendar.SHORT
 import com.example.ubi.adapters.PpkRvAdapter as PpkRvAdapter
 
 class PpkChooseFragment : Fragment() {
@@ -34,7 +35,7 @@ class PpkChooseFragment : Fragment() {
     private lateinit var mUserViewModel: UserVIewModel
 
     private val adapter by lazy {
-        Log.d("PpkChoose ADAPTER", viewModel.getPpkList().size.toString())
+//        Log.d("PpkChoose ADAPTER", viewModel.getPpkList().size.toString())
         PpkRvAdapter(arrayListOf()){ ppk ->
             loginViewModel.setPpkId(ppk.id)
             loginViewModel.setPpkName(ppk.name)
@@ -55,11 +56,17 @@ class PpkChooseFragment : Fragment() {
 
         mUserViewModel = ViewModelProvider(this).get(UserVIewModel::class.java)
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getPpk()
+        }
+
         setupRecyclerView()
         collectFlow()
     }
@@ -67,15 +74,25 @@ class PpkChooseFragment : Fragment() {
     private fun collectFlow(){
         lifecycleScope.launch{
             viewModel.ppkList.collect {
-                adapter.ppkList.clear()
-                adapter.ppkList.addAll(it)
-                adapter.notifyDataSetChanged()
+                if(it.isNotEmpty()){
+                    adapter.ppkList.clear()
+                    adapter.ppkList.addAll(it)
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
 
         lifecycleScope.launch {
             viewModel.isLoading.collect {
                 binding.swipeRefresh.isRefreshing = it
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.isPpkFailed.collect{  it ->
+                if(it){
+                    Toast.makeText(requireContext(),"Something went wrong! Try later.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

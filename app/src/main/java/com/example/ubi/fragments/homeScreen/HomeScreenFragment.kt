@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.ubi.NetworkConnection
 import com.example.ubi.R
 import com.example.ubi.activities.LoginViewModel
 import com.example.ubi.activities.MainViewModel
@@ -33,6 +35,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeScreenFragment : Fragment() {
+
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -63,9 +66,6 @@ class HomeScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        Log.d("Home Screen", viewModel.user.toString())
-
-
         collectFlow()
         setValues()
     }
@@ -87,6 +87,16 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun collectFlow(){
+
+        lifecycleScope.launch {
+            mainViewModel.isInternet.collect{  isConnected ->
+                if(isConnected){
+                    if(!viewModel.isDataDownloaded.value){
+                        viewModel.startViewModel()
+                    }
+                }
+            }
+        }
 
         lifecycleScope.launch {
             viewModel.isLoading.collect {
