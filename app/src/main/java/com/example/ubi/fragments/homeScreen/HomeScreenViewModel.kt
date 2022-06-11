@@ -3,15 +3,23 @@ package com.example.ubi.fragments.homeScreen
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ubi.database.Ppk
 import com.example.ubi.database.payment.Payment
 import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.database.user.User
+import com.example.ubi.database.user.UserRepository
+import com.example.ubi.fragments.loginFragment.LoginFragmentDirections
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 import java.math.RoundingMode
 import java.net.URL
 import java.text.DecimalFormat
@@ -21,6 +29,7 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
     AndroidViewModel(application){
 
     val user: User = _user
+    private var _ppk: Ppk? = null
 
     private val _stateOfFunds = MutableStateFlow("0")
     private val _totalPayment = MutableStateFlow("0")
@@ -31,7 +40,8 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
 
     private val _userPayments = MutableStateFlow(listOf<Payment>())
 
-    val inflationData = mutableListOf<List<String>>()
+    private val inflationData = mutableListOf<List<String>>()
+
 
     val stateOfFunds get() = _stateOfFunds
     val totalPayment get() = _totalPayment
@@ -41,14 +51,88 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
     val inflationPayment get() = _inflationPayment
 
     val isPaymentGot = MutableStateFlow(false)
-    val isInflationGot = MutableStateFlow(true)
+    val isInflationGot = MutableStateFlow(false)
+    val isLoading = MutableStateFlow(false)
+    val isPpkGot = MutableStateFlow(false)
+
+    val ppk get() = _ppk!!
 
 
     init {
-//        getPpk()
-        getPayments()
+        getPpk()
         downloadInflation()
+        getPayments()
         Log.d("PPKVM", _userPayments.toString())
+    }
+
+
+    private fun getPpk() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                isLoading.value = true
+                val response = makePpk()
+                delay(500)
+                _ppk = response
+
+                Log.d("PPKVM", ppk.toString())
+            } catch (e: Exception) {
+                Log.e("JSOUP", e.toString())
+            } finally {
+                Log.d("HomeScreen","PPK Można dodawać")
+                isLoading.value = false
+                isPpkGot.value = true
+            }
+        }
+    }
+
+    private fun makePpk(): Ppk {
+
+        val url = "https://www.bankier.pl/fundusze/notowania/" + user.ppkId
+        getInformationAboutPpk(url).apply {
+            return Ppk(user.ppkId, user.ppkName, this[1], this[0])
+        }
+    }
+
+    private fun getInformationAboutPpk(url: String): List<MutableList<String>> {
+
+        val tmstmp: MutableList<String> = mutableListOf()
+        val values: MutableList<String> = mutableListOf()
+
+        try {
+
+            val document = Jsoup.connect(url).get()
+            var daneNazwa: String? = null
+
+            for (row in document.getElementsByTag("script")) {
+                if ("dane_nazwa = " in row.toString()) {
+                    for (line in row.toString().lines()) {
+                        if ("dane_nazwa " in line) {
+                            daneNazwa = line
+                        }
+                    }
+                }
+            }
+
+            if (daneNazwa != null) {
+                daneNazwa = daneNazwa.substring(18, daneNazwa.length - 2)
+
+                var value: String?
+                var x: String?
+
+                for (obj in daneNazwa.split("}")) {
+                    value = obj.substringAfter("\"y\":").substringBefore(",\"turnover\"")
+                    x = obj.substringAfter("\"x\":")
+                    if (!value.isNullOrBlank() and !x.isNullOrBlank()) {
+//                        Log.d("DODAJE", x.toString() +" "+ value.toString())
+                        tmstmp.add(x)
+                        values.add(value)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("JSOUP", e.toString())
+        }
+        return listOf<MutableList<String>>(tmstmp, values)
     }
 
 
@@ -65,7 +149,7 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         }
     }
 
-    fun setValues(ppk: Ppk){
+    fun setValues(){
 
         stateOfFunds.value = "0"
         ownPayment.value = "0"
@@ -105,11 +189,11 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         val year = cal.get(Calendar.YEAR)
 
         inflationData.forEach {
-            if(it[3]==year.toString() && it[4]==month.toString()){
-                return it[5].toFloat()
+            if(it[3]==year.toString() && it[4]==month.toString() && it[5].isNotBlank()){
+                return it[5].replace(',','.').toFloat()
             }
         }
-        return 1f
+        return 100f
     }
     fun downloadInflation(){
 
@@ -118,6 +202,7 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
                 isInflationGot.value = false
                 val url = "https://stat.gov.pl/download/gfx/portalinformacyjny/pl/defaultstronaopisowa/4741/1/1/miesieczne_wskazniki_cen_towarow_i_uslug_konsumpcyjnych_od_1982_roku_13-05-2022.csv"
                 val strona = URL(url).readText()
+                Log.d("HomeScreen","Pobrałem inflację")
 
                 val tsvReader = csvReader {
                     delimiter = ';'
@@ -131,9 +216,11 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
                         inflationData.add(it)
                     }
                 }
+
+                Log.d("HomeScreen","Skonczylem dostosowywać inflację")
             }catch (e:Exception){
                 isInflationGot.value = false
-                Log.e("Home Screen", e.toString())
+                Log.e("HomeScreen", e.toString())
             }
             finally {
                 isInflationGot.value = true

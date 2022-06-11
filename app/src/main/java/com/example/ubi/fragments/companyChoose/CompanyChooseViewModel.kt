@@ -1,8 +1,7 @@
 package com.example.ubi.fragments.companyChoose
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.*
 
 class CompanyChooseViewModel: ViewModel() {
 
@@ -13,6 +12,7 @@ class CompanyChooseViewModel: ViewModel() {
     val isAdditionalEnable = combine(_additionalPercentage, _companyName, _additionalCompanyPercentage) { emplExtPer, companyName, addCompPer ->
         return@combine emplExtPer.isNotBlank() && companyName.isNotBlank() && addCompPer.isNotBlank()
     }
+
 
 
     fun setAdditionalPercentage(value: String) {

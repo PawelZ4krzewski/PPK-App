@@ -49,7 +49,7 @@ class HomeScreenFragment : Fragment() {
 
     private var _binding: FragmentHomeScreenBinding? = null
     private val binding
-                    get() = _binding!!
+        get() = _binding!!
 
 
     override fun onCreateView(
@@ -62,6 +62,9 @@ class HomeScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        Log.d("Home Screen", viewModel.user.toString())
+
 
         collectFlow()
         setValues()
@@ -86,23 +89,23 @@ class HomeScreenFragment : Fragment() {
     private fun collectFlow(){
 
         lifecycleScope.launch {
-            mainViewModel.isLoading.collect {
+            viewModel.isLoading.collect {
                 binding.swipeRefresh.isRefreshing = it
                 binding.swipeRefresh.isEnabled = it
             }
         }
 
         lifecycleScope.launch{
-            mainViewModel.isPpkGot.collect{
+            viewModel.isPpkGot.collect{
                 if(it){
                     Log.d("HomeScreen","We have PPK")
-
+                    mainViewModel.setPpk(viewModel.ppk)
                     //Chart
                     initChart(mainViewModel.ppk)
                     setDataToLineChart(mainViewModel.ppk)
 
                     if(viewModel.isPaymentGot.value && viewModel.isInflationGot.value){
-                        viewModel.setValues(mainViewModel.ppk)
+                        viewModel.setValues()
                         setValues()
                         Log.d("HomeScreen","Values are set in is PPKGot")
                     }
@@ -118,7 +121,7 @@ class HomeScreenFragment : Fragment() {
             viewModel.isPaymentGot.collect{
                 if(it){
                     if(mainViewModel.isPpkGot.value && viewModel.isInflationGot.value){
-                        viewModel.setValues(mainViewModel.ppk)
+                        viewModel.setValues()
                         setValues()
                     }
                     Log.d("HomeScreen","isPpkGot lub isInflationGot nie jest got a Payment jest")
@@ -130,7 +133,7 @@ class HomeScreenFragment : Fragment() {
             viewModel.isInflationGot.collect{
                 if(it){
                     if(mainViewModel.isPpkGot.value && viewModel.isPaymentGot.value){
-                        viewModel.setValues(mainViewModel.ppk)
+                        viewModel.setValues()
                         setValues()
                     }
                     Log.d("HomeScreen","isPpkGot lub isPaymentGot nie jest got a Inflation jest")

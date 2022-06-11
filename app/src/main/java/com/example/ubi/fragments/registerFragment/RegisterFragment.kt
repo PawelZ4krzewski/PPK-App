@@ -50,6 +50,7 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.usernameTextInputEditText.doOnTextChanged { text, _, _, _ ->
             registerViewModel.setUsername(text.toString())
+
         }
 
         binding.passwordTextInputEditText.doOnTextChanged { text, _, _, _ ->
