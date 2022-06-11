@@ -24,6 +24,7 @@ class MainViewModel: ViewModel() {
     val isPpkGot = MutableStateFlow(false)
 
     init {
+        Log.d("MainActivity", "Tworze MainViewModel")
         getPpk()
     }
 
@@ -36,18 +37,21 @@ class MainViewModel: ViewModel() {
     }
 
     private fun getPpk() {
+        Log.d("Main Activity", "Zaczynam pobierać PPK")
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 isLoading.value = true
                 val response = makePpk()
-                delay(500)
+                Log.d("Main Activity", "Otrzymalem response")
                 _ppk = response
 
-                Log.d("PPKVM", ppk.toString())
+                Log.d("Main Activity", ppk.values.toString())
+                isLoading.value = false
+                isPpkGot.value = true
             } catch (e: Exception) {
                 Log.e("JSOUP", e.toString())
             } finally {
-                Log.d("HomeScreen","PPK Można dodawać")
+                Log.d("Main Activity","PPK Można dodawać")
                 isLoading.value = false
                 isPpkGot.value = true
             }
@@ -55,14 +59,18 @@ class MainViewModel: ViewModel() {
     }
 
     private fun makePpk(): Ppk {
+        Log.d("Main Activity", "Make PPK")
 
         val url = "https://www.bankier.pl/fundusze/notowania/" + user.ppkId
         getInformationAboutPpk(url).apply {
+            Log.d("Main Activity", "Jestem w apply")
             return Ppk(user.ppkId, user.ppkName, this[1], this[0])
         }
     }
 
     private fun getInformationAboutPpk(url: String): List<MutableList<String>> {
+
+        Log.d("Main Activity", "Get Information PPK")
 
         val tmstmp: MutableList<String> = mutableListOf()
         val values: MutableList<String> = mutableListOf()
@@ -101,6 +109,7 @@ class MainViewModel: ViewModel() {
         } catch (e: Exception) {
             Log.e("JSOUP", e.toString())
         }
+        Log.d("Main Activity", "Returnuje liste")
         return listOf<MutableList<String>>(tmstmp, values)
     }
 

@@ -63,9 +63,6 @@ class HomeScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        Log.d("Home Screen", viewModel.user.toString())
-
-
         collectFlow()
         setValues()
     }
@@ -98,16 +95,20 @@ class HomeScreenFragment : Fragment() {
         lifecycleScope.launch{
             mainViewModel.isPpkGot.collect{
                 if(it){
-                    viewModel.setPpk(mainViewModel.ppk)
+                    Log.d("HomeScreen","We have PPK")
 
                     //Chart
-                    initChart(viewModel.ppk)
-                    setDataToLineChart(viewModel.ppk)
+                    initChart(mainViewModel.ppk)
+                    setDataToLineChart(mainViewModel.ppk)
 
-                    if(viewModel.isPaymentGot.value){
-                        viewModel.setValues()
+                    if(viewModel.isPaymentGot.value && viewModel.isInflationGot.value){
+                        viewModel.setValues(mainViewModel.ppk)
                         setValues()
                         Log.d("HomeScreen","Values are set in is PPKGot")
+                    }
+                    else
+                    {
+                        Log.d("HomeScreen","isPaymentGot lub isInflationGot nie jest got a Ppk jest")
                     }
                 }
             }
@@ -116,13 +117,23 @@ class HomeScreenFragment : Fragment() {
         lifecycleScope.launch{
             viewModel.isPaymentGot.collect{
                 if(it){
-                    if(mainViewModel.isPpkGot.value){
-                        Log.d("HomeScreen","Values are set")
-                        viewModel.setValues()
+                    if(mainViewModel.isPpkGot.value && viewModel.isInflationGot.value){
+                        viewModel.setValues(mainViewModel.ppk)
                         setValues()
-                        Log.d("HomeScreen","isPpkGot" + mainViewModel.isPpkGot.value.toString())
                     }
-                    Log.d("HomeScreen","isPpkGot nie jest got a Payment jest")
+                    Log.d("HomeScreen","isPpkGot lub isInflationGot nie jest got a Payment jest")
+                }
+            }
+        }
+
+        lifecycleScope.launch{
+            viewModel.isInflationGot.collect{
+                if(it){
+                    if(mainViewModel.isPpkGot.value && viewModel.isPaymentGot.value){
+                        viewModel.setValues(mainViewModel.ppk)
+                        setValues()
+                    }
+                    Log.d("HomeScreen","isPpkGot lub isPaymentGot nie jest got a Inflation jest")
                 }
             }
         }

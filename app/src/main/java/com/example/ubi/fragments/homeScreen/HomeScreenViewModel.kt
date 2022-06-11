@@ -3,30 +3,24 @@ package com.example.ubi.fragments.homeScreen
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ubi.database.Ppk
 import com.example.ubi.database.payment.Payment
 import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.database.user.User
-import com.example.ubi.database.user.UserRepository
-import com.example.ubi.fragments.loginFragment.LoginFragmentDirections
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 import java.math.RoundingMode
+import java.net.URL
 import java.text.DecimalFormat
+import java.util.*
 
 class HomeScreenViewModel(private val repository: PaymentRepository, application: Application, _user: User) :
     AndroidViewModel(application){
 
     val user: User = _user
-    private var _ppk: Ppk? = null
 
     private val _stateOfFunds = MutableStateFlow("0")
     private val _totalPayment = MutableStateFlow("0")
@@ -37,6 +31,8 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
 
     private val _userPayments = MutableStateFlow(listOf<Payment>())
 
+    val inflationData = mutableListOf<List<String>>()
+
     val stateOfFunds get() = _stateOfFunds
     val totalPayment get() = _totalPayment
     val ownPayment get() = _ownPayment
@@ -45,19 +41,16 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
     val inflationPayment get() = _inflationPayment
 
     val isPaymentGot = MutableStateFlow(false)
-
-    val ppk get() = _ppk!!
+    val isInflationGot = MutableStateFlow(true)
 
 
     init {
 //        getPpk()
         getPayments()
+        downloadInflation()
         Log.d("PPKVM", _userPayments.toString())
     }
 
-    fun setPpk(ppk:Ppk){
-        _ppk = ppk
-    }
 
     fun getPayments(){
         isPaymentGot.value = false
@@ -72,18 +65,21 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         }
     }
 
-    fun setValues(){
+    fun setValues(ppk: Ppk){
 
         stateOfFunds.value = "0"
         ownPayment.value = "0"
         empPayment.value = "0"
         statePayment.value = "0"
+        inflationPayment.value = "0"
 
         _userPayments.value.forEach {
             stateOfFunds.value = (stateOfFunds.value.toFloat() + it.ppkAmount).toString()
             ownPayment.value = (ownPayment.value.toFloat() + it.userPayment).toString()
             empPayment.value = (empPayment.value.toFloat() + it.companyPayment).toString()
             statePayment.value = (statePayment.value.toFloat() + it.countryPayment).toString()
+            val total = it.userPayment + it.companyPayment + it.countryPayment
+            inflationPayment.value = (inflationPayment.value.toFloat() +  (total * ((getInflation(it.date))/100))).toString()
         }
 
         val df = DecimalFormat("#.##")
@@ -99,6 +95,50 @@ class HomeScreenViewModel(private val repository: PaymentRepository, application
         ownPayment.value = df.format(ownPayment.value.toFloat()).toString()
         empPayment.value = df.format(empPayment.value.toFloat()).toString()
         statePayment.value = df.format(statePayment.value.toFloat()).toString()
+        inflationPayment.value = df.format(inflationPayment.value.toFloat()).toString()
+    }
+
+    private fun getInflation(timestamp: String): Float {
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = timestamp.toLong()
+        val month = cal.get(Calendar.MONTH)
+        val year = cal.get(Calendar.YEAR)
+
+        inflationData.forEach {
+            if(it[3]==year.toString() && it[4]==month.toString()){
+                return it[5].toFloat()
+            }
+        }
+        return 1f
+    }
+    fun downloadInflation(){
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                isInflationGot.value = false
+                val url = "https://stat.gov.pl/download/gfx/portalinformacyjny/pl/defaultstronaopisowa/4741/1/1/miesieczne_wskazniki_cen_towarow_i_uslug_konsumpcyjnych_od_1982_roku_13-05-2022.csv"
+                val strona = URL(url).readText()
+
+                val tsvReader = csvReader {
+                    delimiter = ';'
+                    skipEmptyLine = true
+                }
+
+                val rows: List<List<String>> = tsvReader.readAll(strona)
+
+                rows.forEach {
+                    if (it[2].take(17) == "Analogiczny miesi") {
+                        inflationData.add(it)
+                    }
+                }
+            }catch (e:Exception){
+                isInflationGot.value = false
+                Log.e("Home Screen", e.toString())
+            }
+            finally {
+                isInflationGot.value = true
+            }
+        }
     }
 
 }
