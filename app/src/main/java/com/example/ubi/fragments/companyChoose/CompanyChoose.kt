@@ -37,9 +37,23 @@ class CompanyChoose : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.extEmpPerTextInputEditText.doOnTextChanged{text,_,_,_ ->
             companyChooseViewModel.setAdditionalPercentage(text.toString())
+            if(text.toString().isNotBlank()){
+                if(0f>text.toString().toFloat()){
+                    binding.countryPaymentTextInputLayout.error = "Extra employee payment must be bigger than 0"
+                }
+                else if(text.toString().toFloat()>2f){
+                    binding.countryPaymentTextInputLayout.error = "Extra employee payment must be smaller than 2"
+                }
+                else{
+                    binding.countryPaymentTextInputLayout.error = ""
+                }
+            }
         }
+
+
 
         binding.companyNameTextInputEditText.doOnTextChanged{text,_,_,_ ->
             companyChooseViewModel.setCompanyName(text.toString())
@@ -47,6 +61,17 @@ class CompanyChoose : Fragment() {
 
         binding.extCompPerInputEditText.doOnTextChanged{text,_,_,_ ->
             companyChooseViewModel.setAdditionalCompanyPercentage(text.toString())
+            if(text.toString().isNotBlank()) {
+                if (0f > text.toString().toFloat()) {
+                    binding.extCompPerInputLayout.error =
+                        "Extra employee payment must be bigger than 0"
+                } else if (text.toString().toFloat() > 2.5f) {
+                    binding.extCompPerInputLayout.error =
+                        "Extra employee payment must be smaller than 2.5"
+                } else {
+                    binding.extCompPerInputLayout.error = ""
+                }
+            }
         }
 
         collectFlow()

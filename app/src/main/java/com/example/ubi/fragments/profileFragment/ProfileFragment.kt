@@ -85,7 +85,6 @@ class ProfileFragment : Fragment() {
 
         binding.logoutButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_loginActivity)
-            requireActivity().finish()
         }
 
         setValues()
@@ -99,8 +98,8 @@ class ProfileFragment : Fragment() {
     private fun setValues(){
         binding.usernameTextView.text = mainViewModel.user.userName
         binding.companyNameTextView.text = mainViewModel.user.companyName
-        binding.extUserPerTextView.text = mainViewModel.user.userPercentage.toString()
-        binding.extCompPerTextView.text = mainViewModel.user.companyPercentage.toString()
+        binding.extUserPerTextView.text = mainViewModel.user.userPercentage.toString() + "%"
+        binding.extCompPerTextView.text = mainViewModel.user.companyPercentage.toString() + "%"
         binding.ppkNameTextView.text = mainViewModel.user.ppkName
     }
 
