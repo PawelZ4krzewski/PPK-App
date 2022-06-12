@@ -14,6 +14,6 @@ interface PaymentDao {
     @Query("SELECT * FROM payment_table ORDER BY userId ASC")
     fun readAllData(): LiveData<List<Payment>>
 
-    @Query("SELECT * FROM payment_table WHERE userId LIKE :userId ORDER BY date ASC")
+    @Query("SELECT * FROM payment_table WHERE userId LIKE :userId")
     suspend fun getUserPayment(userId: Int): List<Payment>?
 }

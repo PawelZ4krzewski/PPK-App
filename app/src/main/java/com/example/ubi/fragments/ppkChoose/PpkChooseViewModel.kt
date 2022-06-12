@@ -119,15 +119,4 @@ class PpkChooseViewModel : ViewModel() {
         return listOf<MutableList<String>>(tmstmp, values)
     }
 
-
-    private fun getDateTime(s: String): String? {
-        try {
-            val sdf = SimpleDateFormat("yyyy-MM-dd")
-            val netDate = Date(s.toLong())
-            return sdf.format(netDate)
-        } catch (e: Exception) {
-            return e.toString()
-        }
-    }
-
 }

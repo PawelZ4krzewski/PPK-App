@@ -16,6 +16,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.ubi.R
 import com.example.ubi.activities.MainViewModel
@@ -24,6 +25,7 @@ import com.example.ubi.database.payment.PaymentRepository
 import com.example.ubi.databinding.FragmentHomeScreenBinding
 import com.example.ubi.databinding.FragmentProfileBinding
 import com.example.ubi.fragments.homeScreen.HomeScreenViewModel
+import com.example.ubi.fragments.paymentHistory.PaymentHistoryFragment
 import java.io.File
 
 
@@ -47,19 +49,11 @@ class ProfileFragment : Fragment() {
         ProfilViewModel(repository,application, mainViewModel.user)
     }
 
-//    // The path to the root of this app's internal storage
-//    private lateinit var privateRootDir: File
-//    // The path to the "images" subdirectory
-//    private lateinit var imagesDir: File
-//    // Array of files in the images subdirectory
-//    private lateinit var imageFiles: Array<File>
-//    // Array of filenames corresponding to imageFiles
-//    private lateinit var imageFilenames: Array<String>
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -67,7 +61,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.exportDataButton.setOnClickListener {
                 val uriFile = viewModel.exportData(requireContext())
@@ -81,6 +74,16 @@ class ProfileFragment : Fragment() {
 
         binding.importDataButton.setOnClickListener {
             pickFile()
+        }
+
+
+        binding.paymentHistoryButton.setOnClickListener {
+            val transaction = parentFragmentManager.beginTransaction()
+
+            transaction.replace(R.id.fragmentContainer, PaymentHistoryFragment())
+            transaction.commit()
+//            navController.navigate(R.id.action_profileFragment_to_paymentHistoryFragment)
+
         }
 
         binding.logoutButton.setOnClickListener {

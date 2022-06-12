@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_countryPaymentFragment"
             app:destination="@id/countryPaymentFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/countryPaymentFragment"
@@ -38,10 +41,18 @@
         <action
             android:id="@+id/action_profileFragment_to_loginActivity"
             app:destination="@id/loginActivity" />
+        <action
+            android:id="@+id/action_profileFragment_to_paymentHistoryFragment"
+            app:destination="@id/paymentHistoryFragment" />
     </fragment>
     <activity
         android:id="@+id/loginActivity"
         android:name="com.example.ubi.activities.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/paymentHistoryFragment"
+        android:name="com.example.ubi.fragments.paymentHistory.PaymentHistoryFragment"
+        android:label="fragment_payment_history"
+        tools:layout="@layout/fragment_payment_history" />
 </navigation>

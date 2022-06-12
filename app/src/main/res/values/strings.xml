@@ -46,4 +46,6 @@
     <string name="logout">LOGOUT</string>
     <string name="zero">0.0</string>
     <string name="needInternet">REQUIRE INTERNET CONNECTION</string>
+    <string name="ppkAmount">PPK Amount</string>
+    <string name="paymentHistory">PAYMENT HISTORY</string>
 </resources>

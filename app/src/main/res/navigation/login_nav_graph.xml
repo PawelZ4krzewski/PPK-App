@@ -53,4 +53,18 @@
             android:name="currentUser"
             app:argType="com.example.ubi.database.user.User" />
     </activity>
+    <fragment
+        android:id="@+id/paymentHistoryFragment2"
+        android:name="com.example.ubi.fragments.paymentHistory.PaymentHistoryFragment"
+        android:label="fragment_payment_history"
+        tools:layout="@layout/fragment_payment_history" />
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="com.example.ubi.fragments.profileFragment.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment2_to_paymentHistoryFragment22"
+            app:destination="@id/paymentHistoryFragment2" />
+    </fragment>
 </navigation>

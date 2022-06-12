@@ -14,54 +14,5 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/login_nav_graph" />
 
-    <View
-        android:id="@+id/noInternetLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.8"
-        android:background="@color/black"
-        android:translationZ="100dp"
-        android:visibility="gone"
-        />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/noInternetWhiteBox"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:background="@color/white"
-        android:translationZ="200dp"
-        android:layout_marginTop="-150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:flow_horizontalAlign="center"
-        android:visibility="gone"
-        >
-
-        <ImageView
-            android:id="@+id/internetIcon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_wifi"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/noInternetTextView"
-            />
-
-        <TextView
-            android:id="@+id/noInternetTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/needInternet"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/internetIcon" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
