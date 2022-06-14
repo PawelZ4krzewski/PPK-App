@@ -98,6 +98,9 @@ class ProfilViewModel(private val repository: PaymentRepository, application: Ap
         val reader = BufferedReader(InputStreamReader(stream))
 
         var line = reader.readLine()
+
+        Log.d("Profil view", "WCZYTUJE PLIK")
+
         var tekst = line.split(";")
         if(tekst[0] == user.userName && tekst[1] == user.userPassword){
 

@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.*
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 
 class NetworkConnection(private val context: Context):LiveData<Boolean>() {
@@ -40,7 +41,12 @@ class NetworkConnection(private val context: Context):LiveData<Boolean>() {
     override fun onInactive() {
         super.onInactive()
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            connectivityManager.unregisterNetworkCallback(connectivityManagerCallback())
+            try {
+                connectivityManager.unregisterNetworkCallback(connectivityManagerCallback())
+            }
+            catch(e: Exception){
+                Log.d("Network", e.toString())
+            }
         }else {
             context.unregisterReceiver(networkReceiver)
         }
